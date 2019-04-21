@@ -1,6 +1,6 @@
 package app;
 
-import javafx.scene.Scene;
+import javafx.stage.Stage;
 import models.User;
 import sceneManager.SceneManager;
 
@@ -14,7 +14,7 @@ public class CurrentSession {
         return sceneManager;
     }
 
-    static void setSceneManager(Scene s) throws IOException {
+    static void setSceneManager(Stage s) throws IOException {
         CurrentSession.sceneManager = new SceneManager(s);
     }
 

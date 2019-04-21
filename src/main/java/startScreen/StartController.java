@@ -1,5 +1,6 @@
 package startScreen;
 
+import app.CurrentSession;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -32,7 +33,8 @@ public class StartController {
         content.getChildren().add(possibleViews.get(files[0]).getKey());
         startButtonsController = possibleViews.get(files[0]).getValue().getController();
 
-        startButtonsController.LoginButton.setOnAction(e -> changeView(files[1]));
+        startButtonsController.LoginButton.setOnAction(e -> CurrentSession.getSceneManager().activate("main"));
+//        startButtonsController.LoginButton.setOnAction(e -> changeView(files[1]));
         startButtonsController.RegisterButton.setOnAction(e -> changeView(files[2]));
     }
 

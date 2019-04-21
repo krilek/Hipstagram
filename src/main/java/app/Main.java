@@ -1,8 +1,7 @@
 package app;
 
+import dao.UserDao;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -17,10 +16,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Scene rootScene = new Scene(new Pane(), 640, 480);
-        CurrentSession.setSceneManager(rootScene);
-        CurrentSession.getSceneManager().activate("start");
-        primaryStage.setScene(rootScene);
+        primaryStage.setResizable(false);
+//        stage.getIcons().add(new Image("/path/to/stackoverflow.jpg"));
+        CurrentSession.setSceneManager(primaryStage);
+        CurrentSession.setCurrentlyLoggedUser(UserDao.getUserByLogin("krilek"));
+        CurrentSession.getSceneManager().activate("main");
+//        CurrentSession.getSceneManager().activate("start");
         primaryStage.setTitle("Hipstagram");
         primaryStage.show();
     }
