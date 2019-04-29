@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="hipstagram.db" uuid="fc25bacf-ea53-43fb-ab76-1cfc387cd3d8">
+    <data-source source="LOCAL" name="hipstagram.db" uuid="5f3301f4-e68b-48c9-a82d-19cabd17a0a5">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>

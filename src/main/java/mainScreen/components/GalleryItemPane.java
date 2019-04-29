@@ -9,96 +9,38 @@ import javafx.scene.text.Text;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class GalleryItemPane extends GridPane {
+    private static final String viewFxml = "/views/components/GalleryItemPane.fxml";
     private int id;
 
     @FXML
     private ImageView image;
     @FXML
     private Text title;
-
-//    private StringProperty imagePath = new SimpleStringProperty();
-//    private StringProperty imageTitle = new SimpleStringProperty();
-
-    //    public GalleryItemPane(){
-//        Image image = new Image("/img/logo.jpg");
-//        this.image = new ImageView(image);
-//        this.image.setPreserveRatio(true);
-//        this.title = new Text();
-//        RowConstraints imageRow = new RowConstraints();
-//        imageRow.setPercentHeight(80.0);
-//        RowConstraints titleRow = new RowConstraints();
-//        titleRow.setPercentHeight(20.0);
-//
-//        this.getRowConstraints().addAll(imageRow, titleRow);
-//        this.getColumnConstraints().add(column);
-//        this.add(this.image, 0,0);
-//        this.add(this.title, 0, 1);
-//    }
     public GalleryItemPane() {
         this("", "");
     }
 
     public GalleryItemPane(String imagePath, String imageTitle) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/components/GalleryItemPane.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
+
         try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(viewFxml));
+            fxmlLoader.setRoot(this);
+            fxmlLoader.setController(this);
+            fxmlLoader.load();
             if (!imagePath.isEmpty()) {
-                FileInputStream input = new FileInputStream(imagePath);
+                InputStream input = getClass().getResourceAsStream(imagePath);
                 Image image = new Image(input);
                 this.image.setImage(image);
             }
             if (!imageTitle.isEmpty()) {
-                this.title = new Text(imageTitle);
+                this.title.setText(imageTitle);
             }
-            fxmlLoader.load();
         } catch (IOException e) {
-            System.out.println("Failed to load " + "/views/components/GalleryItemPane.fxml" + " or given image " + imagePath + ".");
+            System.out.println("Failed to load " + viewFxml + " or given image " + imagePath + ".");
         }
 
     }
-//    FileInputStream input = new FileInputStream(imagePath);
-//        Image image = new Image(input);
-//        this.image = new ImageView(image);
-//        this.image.setPreserveRatio(true);
-//        this.title = new Text("");
-////        this.title = new Text(imageTitle);
-//        RowConstraints imageRow = new RowConstraints();
-//        imageRow.setPercentHeight(80.0);
-//        RowConstraints titleRow = new RowConstraints();
-//        titleRow.setPercentHeight(20.0);
-//        ColumnConstraints column = new ColumnConstraints();
-//        column.setHalignment(HPos.CENTER);
-//        this.getRowConstraints().addAll(imageRow, titleRow);
-//        this.getColumnConstraints().add(column);
-//        this.add(this.image, 0,0);
-//        this.add(this.title, 0, 1);
-
-//    }
-
-//    public String getImagePath() {
-//        return imagePath.get();
-//    }
-//
-//    public StringProperty imagePathProperty() {
-//        return imagePath;
-//    }
-//
-//    public void setImagePath(String imagePath) {
-//        this.imagePath.set(imagePath);
-//    }
-
-//    public String getImageTitle() {
-//        return imageTitle.get();
-//    }
-//
-//    public StringProperty imageTitleProperty() {
-//        return imageTitle;
-//    }
-//
-//    public void setImageTitle(String imageTitle) {
-//        this.imageTitle.set(imageTitle);
-//    }
 }

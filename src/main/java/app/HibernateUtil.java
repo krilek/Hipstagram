@@ -10,15 +10,10 @@ public class HibernateUtil {
     public static SessionFactory getSessionFactory() {
 
         if (sessionFactory == null) {
-
             try {
-
-                Configuration configuration = new Configuration().configure("/hibernate.cfg.xml");
-//
-//                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-//
-//                        .applySettings(configuration.getProperties()).build();
-
+                Configuration configuration = new Configuration().configure(HibernateUtil.class.getResource("/hibernate.cfg.xml"));
+                String dbPath = HibernateUtil.class.getResource("/hipstagram.db").getPath();
+                configuration.setProperty("hibernate.connection.url", String.format("jdbc:sqlite:%s", dbPath));
                 sessionFactory = configuration.buildSessionFactory();
 
             } catch (Exception e) {
