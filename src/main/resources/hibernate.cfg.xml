@@ -8,7 +8,6 @@
         <property name="format_sql">true</property>
         <property name="dialect">org.hibernate.dialect.SQLiteDialect</property>
         <property name="connection.driver_class">org.sqlite.JDBC</property>
-
         <mapping class="models.User"/>
 
     </session-factory>

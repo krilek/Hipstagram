@@ -5,10 +5,19 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "Users")
+//@org.hibernate.annotations.NamedQueries({
+//        @org.hibernate.annotations.NamedQuery(name = "User_FindByLogin",
+//                query = "from Users where login = :employeeNo"),
+////        @org.hibernate.annotations.NamedQuery(name = "DeptEmployee_FindAllByDesgination",
+////                query = "from DeptEmployee where designation = :designation"),
+////        @org.hibernate.annotations.NamedQuery(name = "DeptEmployee_UpdateEmployeeDepartment",
+////                query = "Update DeptEmployee set department = :newDepartment where employeeNumber = :employeeNo"),
+////        ...
+//        })
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     @Column(name = "login", unique = true)
     private String login;

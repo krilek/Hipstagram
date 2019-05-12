@@ -7,11 +7,9 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     public static void main(String[] args) {
-        HibernateUtil.getSessionFactory();
+        DatabaseContext.getEntityManagerFactory();
         launch(args);
-        if (HibernateUtil.getSessionFactory().isOpen()) {
-            HibernateUtil.getSessionFactory().close();
-        }
+        DatabaseContext.shutdown();
     }
 
     @Override

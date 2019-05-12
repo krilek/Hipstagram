@@ -1,52 +1,34 @@
 package models;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "UserGalleries")
-public class UserGallery implements Serializable {
+public class UserGallery {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "login", unique = true)
-    private String login;
-    @Column(name = "passwordHash")
-    private String passwordHash;
-    @Column(name = "email")
-    private String email;
-    @Column(name = "admin")
-    private int admin;
+    @Column(name = "fistName")
+    private String firstName;
+
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "dept")
+    private String dept;
 
     public UserGallery() {
+
     }
 
-    public UserGallery(String login, String passwordHash, String email, int isAdmin) {
-        this.login = login;
-        this.passwordHash = passwordHash;
-        this.email = email;
-        this.admin = isAdmin;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
-                ", email='" + email + '\'' +
-                ", admin=" + admin +
-                '}';
-    }
-
-    public int getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(int admin) {
-        this.admin = admin;
+    public UserGallery(int id, String firstName, String lastName, String dept) {
+        this.setId(id);
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setDept(dept);
     }
 
     public int getId() {
@@ -57,29 +39,27 @@ public class UserGallery implements Serializable {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDept() {
+        return dept;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDept(String dept) {
+        this.dept = dept;
     }
-
-
 }

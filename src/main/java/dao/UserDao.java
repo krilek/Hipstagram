@@ -1,40 +1,34 @@
 package dao;
 
-import app.HibernateUtil;
+import app.DatabaseContext;
 import models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.xml.crypto.Data;
 import java.util.List;
 
 public class UserDao {
 
     public static void addUser(User user) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            session.save(user);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
+        EntityManager em = DatabaseContext.getEntityManagerFactory().createEntityManager();
+        em.getTransaction().begin();
+        em.persist(user);
+        em.getTransaction().commit();
     }
 
     public static User getUserByLogin(String login) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query query = session.createQuery("from User where login = :login", User.class);
-            query.setParameter("login", login);
-            return (User) query.getSingleResult();
-        }
+        EntityManager em = DatabaseContext.getEntityManagerFactory().createEntityManager();
+        Query query = em.createQuery("from User where login = :login", User.class);
+        query.setParameter("login", login);
+        return (User) query.getSingleResult();
     }
 
     public static List<User> getUsers() {
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = DatabaseContext.getSessionFactory().openSession()) {
 
             return session.createQuery("from User", User.class).list();
 
