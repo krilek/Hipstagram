@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hipstagram", "Hipstagram\Hipstagram.csproj", "{74026A93-4DAE-4F25-86E1-7534C46B16A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hipstagram", "Hipstagram\Hipstagram.csproj", "{A1114779-673C-4AA5-AFF2-8AFEBD5827EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HipstagramService", "HipstagramService\HipstagramService.csproj", "{C6E9AC08-403C-4C76-A4CF-DE1AFFC6CB53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +13,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{74026A93-4DAE-4F25-86E1-7534C46B16A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74026A93-4DAE-4F25-86E1-7534C46B16A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74026A93-4DAE-4F25-86E1-7534C46B16A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74026A93-4DAE-4F25-86E1-7534C46B16A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1114779-673C-4AA5-AFF2-8AFEBD5827EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1114779-673C-4AA5-AFF2-8AFEBD5827EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1114779-673C-4AA5-AFF2-8AFEBD5827EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1114779-673C-4AA5-AFF2-8AFEBD5827EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6E9AC08-403C-4C76-A4CF-DE1AFFC6CB53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6E9AC08-403C-4C76-A4CF-DE1AFFC6CB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6E9AC08-403C-4C76-A4CF-DE1AFFC6CB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6E9AC08-403C-4C76-A4CF-DE1AFFC6CB53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {446BE7DB-3923-463A-9088-D75A436BB8B9}
+		SolutionGuid = {58911560-711E-40EB-BBD7-8F1DF5EFC421}
 	EndGlobalSection
 EndGlobal
