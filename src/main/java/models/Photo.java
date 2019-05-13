@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "Photos")
@@ -21,7 +22,8 @@ public class Photo implements Serializable {
     private int id;
     @Column(name = "filename", unique = true)
     private String filename;
-
+    @ManyToMany(mappedBy = "photos")
+    private Set<Gallery> galleries;
     public Photo() {
     }
 

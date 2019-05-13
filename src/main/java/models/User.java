@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "Users")
@@ -27,6 +28,9 @@ public class User implements Serializable {
     private String email;
     @Column(name = "admin")
     private int admin;
+
+    @ManyToMany(mappedBy = "owners")
+    private Set<Gallery> galleries;
 
     public User() {
     }

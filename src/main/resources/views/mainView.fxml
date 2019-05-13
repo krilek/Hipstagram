@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-
 <?import mainScreen.components.GalleryView?>
-<?import javafx.collections.FXCollections?>
 <?import mainScreen.components.GalleryList?>
 <GridPane fx:id="mainView" maxHeight="768.0" maxWidth="1024.0" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainScreen.Controller">
    <columnConstraints>
@@ -42,16 +36,9 @@
       <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
         <content>
           <GalleryView>
-
           </GalleryView>
         </content>
       </ScrollPane>
-      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-        <content>
-            <GalleryList>
-
-            </GalleryList>
-        </content>
-      </ScrollPane>
+       <GalleryList GridPane.columnIndex="0" GridPane.rowIndex="1"></GalleryList>
    </children>
 </GridPane>
