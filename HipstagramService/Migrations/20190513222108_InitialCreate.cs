@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace HipstagramService.Migrations
+namespace HipstagramRepository.Migrations
 {
     public partial class InitialCreate : Migration
     {

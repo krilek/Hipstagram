@@ -1,4 +1,4 @@
-﻿namespace HipstagramService.Models
+﻿namespace HipstagramRepository.Models
 {
     public class Photo
     {

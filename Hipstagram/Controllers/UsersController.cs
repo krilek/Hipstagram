@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HipstagramService;
-using HipstagramService.Models;
+using HipstagramRepository.Models;
+using HipstagramRepository;
+using HipstagramServices.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hipstagram.Controllers
 {
@@ -15,19 +15,44 @@ namespace Hipstagram.Controllers
     public class UsersController : ControllerBase
     {
         private readonly HipstagramContext _context;
+        private readonly IUserService _userService;
 
-        public UsersController(HipstagramContext context)
+        public UsersController(HipstagramContext context, IUserService userService)
         {
+            _userService = userService;
             _context = context;
         }
 
         // GET: api/Users
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
         }
 
+        //[AllowAnonymous]
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody]User userParam)
+        {
+            var user = await _userService.Authenticate(userParam.Login, userParam.Password);
+
+            if (user == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            return Ok(user);
+        }
+
+        //[HttpPost("register")]
+        //public async Task<IActionResult> Authenticate([FromBody]User userParam)
+        //{
+        //    var user = await _userService.Authenticate(userParam.Login, userParam.Password);
+
+        //    if (user == null)
+        //        return BadRequest(new { message = "Username or password is incorrect" });
+
+        //    return Ok(user);
+        //}
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
