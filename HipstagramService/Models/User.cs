@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace HipstagramService.Models
 {
@@ -10,6 +11,7 @@ namespace HipstagramService.Models
         public string PasswordHash { get; set; }
         public string Email { get; set; }
         public bool isAdmin { get; set; }
+        public ICollection<Photo> Photos { get; set; }
     }
 
 }
