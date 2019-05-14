@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HipstagramService\HipstagramRepository.csproj" />
+    <ProjectReference Include="..\HipstagramRepository\HipstagramRepository.csproj" />
   </ItemGroup>
 
 </Project>
