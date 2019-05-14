@@ -22,6 +22,11 @@ export class Counter extends Component {
 
         <p>This is a simple example of a React component.</p>
 
+            <form action="http://localhost:63550/api/photos" method="post" enctype="multipart/form-data">
+                Select image to upload:
+                <input type="file" name="files" id="fileToUpload" />
+                    <input type="submit" value="Upload Image" name="submit" />
+            </form>
         <p>Current count: <strong>{this.state.currentCount}</strong></p>
 
         <button className="btn btn-primary" onClick={this.incrementCounter}>Increment</button>

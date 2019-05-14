@@ -16,6 +16,7 @@ namespace Hipstagram.Controllers
     [ApiController]
     public class PhotosController : ControllerBase
     {
+        private const string UploadsDirectoryName = "uploads";
         private readonly HipstagramContext _context;
         private IHostingEnvironment _hostingEnvironment;
 
@@ -78,9 +79,9 @@ namespace Hipstagram.Controllers
 
         // POST: api/Photos
         [HttpPost]
-        public async Task<IActionResult> Post(List<IFormFile> files)
+        public async Task<IActionResult> Post(IEnumerable<IFormFile> files)
         {
-            string uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+            string uploads = Path.Combine(_hostingEnvironment.WebRootPath, UploadsDirectoryName);
             foreach (var file in files)
             {
                 if (file.Length > 0)
