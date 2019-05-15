@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HipstagramService;
-using HipstagramService.Models;
+using HipstagramRepository.Models;
+using HipstagramRepository;
+using HipstagramServices.Interfaces;
+using System;
+using AutoMapper;
 
 namespace Hipstagram.Controllers
 {
@@ -15,19 +16,54 @@ namespace Hipstagram.Controllers
     public class UsersController : ControllerBase
     {
         private readonly HipstagramContext _context;
+        private readonly IUserService _userService;
+        private IMapper _mapper;
 
-        public UsersController(HipstagramContext context)
+        public UsersController(HipstagramContext context, IUserService userService, IMapper mapper)
         {
+            _mapper = mapper;
+            _userService = userService;
             _context = context;
         }
 
         // GET: api/Users
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
         }
 
+        //[AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromBody]UserDto userDto)
+        {
+            var user = _userService.Authenticate(userDto.Login, userDto.Password);
+
+            if (user == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            return Ok(_mapper.Map<UserDto>(user));
+        }
+
+        [HttpPost("register")]
+        public IActionResult Register([FromBody]UserDto userDto)
+        {
+            // map dto to entity
+            var user = _mapper.Map<User>(userDto);
+
+            try
+            {
+                // save 
+                _userService.Create(user, userDto.Password);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)

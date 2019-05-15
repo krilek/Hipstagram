@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hipstagram", "Hipstagram\Hipstagram.csproj", "{A1114779-673C-4AA5-AFF2-8AFEBD5827EB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HipstagramService", "HipstagramService\HipstagramService.csproj", "{C6E9AC08-403C-4C76-A4CF-DE1AFFC6CB53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HipstagramServices", "HipstagramServices\HipstagramServices.csproj", "{9FD6274E-1F7E-429A-9CB8-06FD8B074429}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HipstagramRepository", "HipstagramRepository\HipstagramRepository.csproj", "{CFA469E4-C5F4-4B8A-A32F-6A6C9F350DC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +19,14 @@ Global
 		{A1114779-673C-4AA5-AFF2-8AFEBD5827EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1114779-673C-4AA5-AFF2-8AFEBD5827EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1114779-673C-4AA5-AFF2-8AFEBD5827EB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C6E9AC08-403C-4C76-A4CF-DE1AFFC6CB53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6E9AC08-403C-4C76-A4CF-DE1AFFC6CB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6E9AC08-403C-4C76-A4CF-DE1AFFC6CB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6E9AC08-403C-4C76-A4CF-DE1AFFC6CB53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FD6274E-1F7E-429A-9CB8-06FD8B074429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FD6274E-1F7E-429A-9CB8-06FD8B074429}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FD6274E-1F7E-429A-9CB8-06FD8B074429}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FD6274E-1F7E-429A-9CB8-06FD8B074429}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFA469E4-C5F4-4B8A-A32F-6A6C9F350DC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFA469E4-C5F4-4B8A-A32F-6A6C9F350DC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFA469E4-C5F4-4B8A-A32F-6A6C9F350DC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFA469E4-C5F4-4B8A-A32F-6A6C9F350DC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

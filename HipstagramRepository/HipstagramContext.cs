@@ -1,7 +1,7 @@
-﻿using HipstagramService.Models;
+﻿using HipstagramRepository.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HipstagramService
+namespace HipstagramRepository
 {
     public class HipstagramContext : DbContext
     {

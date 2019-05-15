@@ -1,7 +1,11 @@
-using HipstagramService;
+using AutoMapper;
+using HipstagramRepository;
+using HipstagramServices;
+using HipstagramServices.Helpers;
+using HipstagramServices.Interfaces;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
@@ -24,11 +28,16 @@ namespace Hipstagram
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper();
             services.AddSingleton<IHostingEnvironment>(Environment);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             var connection = "Data Source=hipstagram.db";
             services.AddDbContext<HipstagramContext>
                 (options => options.UseSqlite(connection));
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            // configure DI for application services
+            services.AddScoped<IUserService, UserService>();
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -53,6 +62,7 @@ namespace Hipstagram
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
@@ -70,6 +80,11 @@ namespace Hipstagram
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+            //app.UseCors(x => x
+            //    .AllowAnyOrigin()
+            //    .AllowAnyMethod()
+            //    .AllowAnyHeader()
+            //    .AllowCredentials());
         }
     }
 }
