@@ -8,6 +8,7 @@ using HipstagramRepository;
 using HipstagramServices.Interfaces;
 using System;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hipstagram.Controllers
 {
@@ -25,9 +26,10 @@ namespace Hipstagram.Controllers
             _userService = userService;
             _context = context;
         }
-
+        // https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-user-id-in-asp-net-core
+        // var x = User.FindFirst(ClaimTypes.NameIdentifier).Value; - to get user id
         // GET: api/Users
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
