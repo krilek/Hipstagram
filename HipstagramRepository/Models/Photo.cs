@@ -1,4 +1,6 @@
-﻿namespace HipstagramRepository.Models
+﻿using System.Collections.Generic;
+
+namespace HipstagramRepository.Models
 {
     public class Photo
     {
