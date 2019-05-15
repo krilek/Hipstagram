@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using HipstagramRepository.Models;
 using HipstagramRepository;
 using HipstagramServices.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+using System;
+using AutoMapper;
 
 namespace Hipstagram.Controllers
 {
@@ -16,9 +17,11 @@ namespace Hipstagram.Controllers
     {
         private readonly HipstagramContext _context;
         private readonly IUserService _userService;
+        private IMapper _mapper;
 
-        public UsersController(HipstagramContext context, IUserService userService)
+        public UsersController(HipstagramContext context, IUserService userService, IMapper mapper)
         {
+            _mapper = mapper;
             _userService = userService;
             _context = context;
         }
@@ -33,26 +36,34 @@ namespace Hipstagram.Controllers
 
         //[AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody]User userParam)
+        public IActionResult Authenticate([FromBody]UserDto userDto)
         {
-            var user = await _userService.Authenticate(userParam.Login, userParam.Password);
+            var user = _userService.Authenticate(userDto.Login, userDto.Password);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
 
-            return Ok(user);
+            return Ok(_mapper.Map<UserDto>(user));
         }
 
-        //[HttpPost("register")]
-        //public async Task<IActionResult> Authenticate([FromBody]User userParam)
-        //{
-        //    var user = await _userService.Authenticate(userParam.Login, userParam.Password);
+        [HttpPost("register")]
+        public IActionResult Register([FromBody]UserDto userDto)
+        {
+            // map dto to entity
+            var user = _mapper.Map<User>(userDto);
 
-        //    if (user == null)
-        //        return BadRequest(new { message = "Username or password is incorrect" });
-
-        //    return Ok(user);
-        //}
+            try
+            {
+                // save 
+                _userService.Create(user, userDto.Password);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)

@@ -18,3 +18,26 @@ export default class App extends Component {
     );
   }
 }
+/*
+Requesty (wiêcej do debugowania w Controllers)
+Post:
+http://localhost:63550/api/users/register
+{
+	"Email":"krilek@gmail.com",
+	"Login":"krilek",
+	"Password":"pass"
+}
+Post:
+http://localhost:63550/api/users/authenticate
+{
+	"Login":"krilek",
+	"Password":"pass"
+}
+Response:
+{
+    "id": 1,
+    "email": "krilek@gmail.com",
+    "login": "krilek",
+    "password": null
+}
+ */

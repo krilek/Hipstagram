@@ -1,3 +1,4 @@
+using AutoMapper;
 using HipstagramRepository;
 using HipstagramServices;
 using HipstagramServices.Helpers;
@@ -27,6 +28,7 @@ namespace Hipstagram
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper();
             services.AddSingleton<IHostingEnvironment>(Environment);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             var connection = "Data Source=hipstagram.db";
