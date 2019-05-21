@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { userService } from '../_services';
+import { userService } from '../services/user.service';
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -29,7 +29,7 @@ class LoginPage extends React.Component {
         e.preventDefault();
 
         this.setState({ submitted: true });
-        const { username, password, returnUrl } = this.state;
+        const { username, password } = this.state;
 
         // stop here if form is invalid
         if (!(username && password)) {
@@ -38,7 +38,7 @@ class LoginPage extends React.Component {
         this.setState({ loading: true });
         userService.login(username, password)
             .then(
-                user => {
+                () => {
                     const { from } = this.props.location.state || { from: { pathname: "/" } };
                     this.props.history.push(from);
                 },

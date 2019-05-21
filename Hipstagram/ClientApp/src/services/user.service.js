@@ -1,6 +1,5 @@
-import config from 'config';
-import { authHeader } from '../_helpers';
-
+import { authHeader } from '../helpers/auth-header.js';
+import {BackEndConfig} from '../helpers/config.js';
 export const userService = {
     login,
     logout,
@@ -14,8 +13,8 @@ function login(Login, Password) {
         body: JSON.stringify({ Login, Password })
     };
     console.log(JSON.stringify({ Login, Password }))
-    console.log(`${config.apiUrl}api/users/authenticate`)
-    return fetch(`${config.apiUrl}api/users/authenticate`, requestOptions)
+    console.log(`${BackEndConfig.apiUrl}api/users/authenticate`)
+    return fetch(`${BackEndConfig.apiUrl}api/users/authenticate`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // Login successful if there's a user in the response
@@ -42,7 +41,7 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(`${config.apiUrl}api/users`, requestOptions).then(handleResponse);
+    return fetch(`${BackEndConfig.apiUrl}api/users`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
@@ -53,7 +52,7 @@ function handleResponse(response) {
             if (response.status === 401) {
                 // auto logout if 401 response returned from api
                 logout();
-                location.reload(true);
+                window.location.reload(true);
             }
 
             const error = (data && data.message) || response.statusText;
