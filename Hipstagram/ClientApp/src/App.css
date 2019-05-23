@@ -27,3 +27,11 @@ button:hover{
 .goToLogin{
     color:green !important;
 }
+div.kafelek{
+    border:solid black;
+    height: 100px;
+    width: 100px;
+}
+.addNewGallery{
+    border-radius: 15px;
+}
