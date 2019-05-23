@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { userService } from '../services/user.service';
-
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
@@ -49,11 +48,9 @@ class LoginPage extends React.Component {
     render() {
         const { username, password, submitted, loading, error } = this.state;
         return (
-            <div className="col-md-6 col-md-offset-3">
-                <div className="alert alert-info">
-                    Username: test<br />
-                    Password: test
-                </div>
+            <div className="container">
+                <div className="row">
+                <div className="col-md-6 col-md-offset-3">
                 <h2>Login</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
@@ -80,7 +77,11 @@ class LoginPage extends React.Component {
                         <div className={'alert alert-danger'}>{error}</div>
                     }
                 </form>
+                </div>
+                
             </div>
+            </div>
+          
         );
     }
 }

@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Layout } from './components/Layout';
+import { RegisterPage } from './components/RegisterPage';
 
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { PrivateRoute} from './components/PrivateRoute';
 import { HomePage } from './components/HomePage';
 import { LoginPage } from './components/LoginPage';
+import "./App.css";
 export default class App extends Component {
   static displayName = App.name;
 
@@ -17,10 +19,13 @@ export default class App extends Component {
         <Route path="/login" component={LoginPage} />
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} />
+        <Route path='/register' component={RegisterPage} />
       </Layout>
     );
   }
 }
+
+
 /*
 Requesty (wi�cej do debugowania w Controllers)
 Post:
