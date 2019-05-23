@@ -11,6 +11,8 @@ using AutoMapper;
 
 namespace Hipstagram.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
+
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -27,7 +29,7 @@ namespace Hipstagram.Controllers
         }
 
         // GET: api/Users
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {

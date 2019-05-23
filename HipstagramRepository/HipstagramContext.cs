@@ -16,6 +16,8 @@
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Gallery> Galleries { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserPhotos>().HasKey(t => new { t.UserId, t.PhotoId });
