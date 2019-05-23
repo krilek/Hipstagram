@@ -1,25 +1,33 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Layout } from './components/Layout';
-import { Home } from './components/Home';
+import { RegisterPage } from './components/RegisterPage';
+
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
-
+import { PrivateRoute} from './components/PrivateRoute';
+import { HomePage } from './components/HomePage';
+import { LoginPage } from './components/LoginPage';
+import "./App.css";
 export default class App extends Component {
   static displayName = App.name;
 
   render () {
     return (
       <Layout>
-        <Route exact path='/' component={Home} />
+        <PrivateRoute exact path="/" component={HomePage} />
+        <Route path="/login" component={LoginPage} />
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} />
+        <Route path='/register' component={RegisterPage} />
       </Layout>
     );
   }
 }
+
+
 /*
-Requesty (wiêcej do debugowania w Controllers)
+Requesty (wiï¿½cej do debugowania w Controllers)
 Post:
 http://localhost:63550/api/users/register
 {
