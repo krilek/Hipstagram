@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 class RegisterPage extends Component {
 
   state = {
-    userName: '',
-    email: '',
-    password: '',
+    Login: '',
+    Email: '',
+    Password: '',
     errors: {
-      userName: false,
-      email: false,
-      password: false,
+      Login: false,
+      Email: false,
+      Password: false,
     }
   }
   messages = {
@@ -39,49 +39,64 @@ class RegisterPage extends Component {
     console.log(validation)
     if (validation.correct) {
       this.setState({
-        userName: '',
-        email: '',
-        password: '',
+        Login: '',
+        Email: '',
+        Password: '',
           message: "Complete",
           errors: {
-            userName: false,
+            Login: false,
             email: false,
-            password: false,
+            Password: false,
           }
       })
+   
+      
     } else {
       this.setState({
         errors: {
-          userName: !validation.username,
-          email: !validation.email,
-          password: !validation.password,
+          Login: !validation.username,
+          Email: !validation.email,
+          Password: !validation.password,
         }
       })
     }
-
+  
+    fetch('https://localhost:5001/api/users/register', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        Email: this.state.Email,
+        Login: this.state.Login,
+        Password: this.state.Password,
+      })
+    })
+  
   }
   formValidation = () => {
-    let username = false;
-    let email = false;
-    let password = false;
+    let Login = false;
+    let Email = false;
+    let Password = false;
     let correct = false;
-    if(this.state.userName.length > 5 && this.state.userName.indexOf(' ') === -1){
-      username = true;
+    if(this.state.Login.length > 5 && this.state.Login.indexOf(' ') === -1){
+      Login = true;
     }
-    if(this.state.email.indexOf('@') !== -1) {
-      email = true;
+    if(this.state.Email.indexOf('@') !== -1) {
+      Email = true;
     }
-    if(this.state.password.length > 8) {
-      password = true;
+    if(this.state.Password.length > 8) {
+      Password = true;
     }
-    if(username && email && password  ) {
+    if(Login && Email && Password  ) {
       correct = true;
     }
     return ({
       correct,
-      username,
-      email,
-      password,
+      Login,
+      Email,
+      Password,
     })
   }
 
@@ -104,11 +119,11 @@ class RegisterPage extends Component {
               <label htmlFor="user"> Login:
                   <input type="text"
                          id="user"
-                         name="userName"
-                         value={this.state.userName}
+                         name="Login"
+                         value={this.state.Login}
                          onChange={this.handleChange}
                          className="form-control"  /> 
-                            {this.state.errors.userName &&
+                            {this.state.errors.Login &&
                             <div className="help-block">{this.messages.username_incorrect}</div>
                             }
               </label>
@@ -118,12 +133,12 @@ class RegisterPage extends Component {
               <label htmlFor="password"> Password:
                 <input type="password"
                        id="password"
-                      name="password"
-                      value={this.state.password}
+                      name="Password"
+                      value={this.state.Password}
                       onChange={this.handleChange}
                       className="form-control" />
                       
-                      {this.state.errors.userName &&
+                      {this.state.errors.Password &&
                       <div className="help-block">{this.messages.password_incorrect}</div>
                       }    
                   </label>        
@@ -132,12 +147,12 @@ class RegisterPage extends Component {
                   <label htmlFor="email">Email:
                       <input type="email"
                           id="email"
-                          name="email"
+                          name="Email"
                           value={this.state.email}
                           onChange={this.handleChange}
                            className="form-control"/>
             
-                          {this.state.errors.userName &&
+                          {this.state.errors.Email &&
                           <div className="help-block">{this.messages.email_incorrect}</div>
                           }
                     </label>
