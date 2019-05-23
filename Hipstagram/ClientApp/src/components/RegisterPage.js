@@ -96,87 +96,64 @@ class RegisterPage extends Component {
     render() {
     return (
 
-      <div className="container text-center d-flex justify-content-center py-5">
-        <div className="row">
-         
-          <form onSubmit={this.handleSubmit} noValidate>
-            <div className="form-row">
-              <div className="form-group">
-                  <label htmlFor="user"> Login:
-                    <input type="text"
-                          id="user"
-                          name="userName"
-                          value={this.state.userName}
-                          onChange={this.handleChange}
-                          className="form-control"
-                    /> 
-                      {this.state.errors.userName &&
-                       <div className="help-block">{this.messages.username_incorrect}</div>
-                    }
-                  </label>
-                </div>
-             </div>
-      
+ 
+      <div className="col-md-6 col-md-offset-3">
+        <h2>Register</h2>
+        <form onSubmit={this.handleSubmit} noValidate>
+          <div className='form-group'>
+              <label htmlFor="user"> Login:
+                  <input type="text"
+                         id="user"
+                         name="userName"
+                         value={this.state.userName}
+                         onChange={this.handleChange}
+                         className="form-control"  /> 
+                            {this.state.errors.userName &&
+                            <div className="help-block">{this.messages.username_incorrect}</div>
+                            }
+              </label>
+          </div>
 
-       
-    
-
-       <div className="form-row py-3">
-          <div className="form-group">
-            <label htmlFor="password"> Password:
+           <div className="form-group">
+              <label htmlFor="password"> Password:
                 <input type="password"
-                      id="password"
+                       id="password"
                       name="password"
                       value={this.state.password}
                       onChange={this.handleChange}
-                      className="form-control"
-                />
-                 {this.state.errors.userName &&
-                       <div className="help-block">{this.messages.password_incorrect}</div>
-                    }
-            </label>        
+                      className="form-control" />
+                      
+                      {this.state.errors.userName &&
+                      <div className="help-block">{this.messages.password_incorrect}</div>
+                      }    
+                  </label>        
             </div>
-        </div>
-
-         <div className="form-row py-3">
-          <div className="form-group"> 
-            <label htmlFor="email">Email:
-                <input type="email"
-                      id="email"
-                      name="email"
-                      value={this.state.email}
-                      onChange={this.handleChange}
-                      className="form-control"
-                />
-                  {this.state.errors.userName &&
-                       <div className="help-block">{this.messages.email_incorrect}</div>
-                    }
-            </label>
-          </div>
-       </div>
-  
-
-          <div className="form-row">
-            <div className="form-group">
-              <button className="btn btn-primary ">Register</button>
-            </div>
-          </div>
-
-        
-                {this.state.message && 
-                <div className="form-row"> 
-                  <div className="alert alert-success" role="alert">
-                  <p className="alert-heading text-center">{this.state.message}!</p>
-                  </div>
-                  <NavLink tag={Link} className="text-dark goToLogin" to="/login">Go To Login</NavLink>
+                <div className="form-group"> 
+                  <label htmlFor="email">Email:
+                      <input type="email"
+                          id="email"
+                          name="email"
+                          value={this.state.email}
+                          onChange={this.handleChange}
+                           className="form-control"/>
+            
+                          {this.state.errors.userName &&
+                          <div className="help-block">{this.messages.email_incorrect}</div>
+                          }
+                    </label>
                 </div>
-              }  
-
-          </form>
-        </div>  
-      </div>
-     
-   
+                <div className="form-group">
+                      <button className="btn btn-primary register ">Register</button>
+                </div>
+                      {this.state.message && 
+                      <div className="form-row"> 
+                        <div className="alert alert-success" role="alert">
+                        <p className="alert-heading text-center">{this.state.message}!</p>
+                        </div>
+                        <NavLink tag={Link} className="text-dark goToLogin" to="/login">Go To Login</NavLink>
+                      </div>}
+        </form>
+       </div>
     );
   }
 }
