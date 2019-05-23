@@ -21,5 +21,6 @@
         public byte[] PasswordSalt { get; set; }
 
         public ICollection<UserPhotos> UserPhotos { get; } = new List<UserPhotos>();
+        public ICollection<UserGalleries> UserGalleries { get; } = new List<UserGalleries>();
     }
 }

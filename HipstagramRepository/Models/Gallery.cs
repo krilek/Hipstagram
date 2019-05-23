@@ -10,6 +10,8 @@
 
         public string Name { get; set; }
 
-        public ICollection<GalleryPhotos> Photos { get; } = new List<GalleryPhotos>();
+        public ICollection<UserGalleries> Owners { get; set; }
+
+        public ICollection<GalleryPhotos> Photos { get; set; }
     }
 }

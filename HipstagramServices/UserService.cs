@@ -15,7 +15,12 @@ namespace HipstagramServices
         {
             _context = context;
         }
-        
+
+        public User GetUser(int id)
+        {
+            return this._context.Users.FirstOrDefault(user => user.Id == id);
+        }
+
         public IEnumerable<User> GetAll()
         {
             return _context.Users;

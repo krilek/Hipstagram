@@ -10,5 +10,7 @@ namespace HipstagramServices.Interfaces
         User Authenticate(string username, string password);
         User Create(User user, string password);
         IEnumerable<User> GetAll();
+
+        User GetUser(int id);
     }
 }

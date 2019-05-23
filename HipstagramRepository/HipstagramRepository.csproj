@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20190514232718_UpdatedAuth.cs" />
     <Compile Remove="Migrations\20190514233208_UpdatedAuth.cs" />
     <Compile Remove="Migrations\20190514234101_UpdatedUser.cs" />
+    <Compile Remove="Migrations\20190514234407_UpdatedAuth.cs" />
+    <Compile Remove="Migrations\20190516173458_RelationsManyToMany.cs" />
   </ItemGroup>
 
   <ItemGroup>

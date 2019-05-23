@@ -18,10 +18,13 @@
 
         public DbSet<Gallery> Galleries { get; set; }
 
+        public DbSet<Log> Logs { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserPhotos>().HasKey(t => new { t.UserId, t.PhotoId });
             modelBuilder.Entity<GalleryPhotos>().HasKey(t => new { t.GalleryId, t.PhotoId });
+            modelBuilder.Entity<UserGalleries>().HasKey(t => new { t.GalleryId, t.UserId });
         }
     }
 }

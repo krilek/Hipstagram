@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HipstagramRepository.Migrations
 {
     [DbContext(typeof(HipstagramContext))]
-    [Migration("20190516173458_RelationsManyToMany")]
-    partial class RelationsManyToMany
+    [Migration("20190523221416_NewBaseLogsAndGalleryUpdated")]
+    partial class NewBaseLogsAndGalleryUpdated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,7 +27,7 @@ namespace HipstagramRepository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Gallery");
+                    b.ToTable("Galleries");
                 });
 
             modelBuilder.Entity("HipstagramRepository.Models.JoinEntities.GalleryPhotos", b =>
@@ -43,6 +43,19 @@ namespace HipstagramRepository.Migrations
                     b.ToTable("GalleryPhotos");
                 });
 
+            modelBuilder.Entity("HipstagramRepository.Models.JoinEntities.UserGalleries", b =>
+                {
+                    b.Property<int>("GalleryId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("GalleryId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserGalleries");
+                });
+
             modelBuilder.Entity("HipstagramRepository.Models.JoinEntities.UserPhotos", b =>
                 {
                     b.Property<int>("UserId");
@@ -54,6 +67,24 @@ namespace HipstagramRepository.Migrations
                     b.HasIndex("PhotoId");
 
                     b.ToTable("UserPhotos");
+                });
+
+            modelBuilder.Entity("HipstagramRepository.Models.Log", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Activity");
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Logs");
                 });
 
             modelBuilder.Entity("HipstagramRepository.Models.Photo", b =>
@@ -101,6 +132,19 @@ namespace HipstagramRepository.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("HipstagramRepository.Models.JoinEntities.UserGalleries", b =>
+                {
+                    b.HasOne("HipstagramRepository.Models.Gallery", "Gallery")
+                        .WithMany("Owners")
+                        .HasForeignKey("GalleryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HipstagramRepository.Models.User", "User")
+                        .WithMany("UserGalleries")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("HipstagramRepository.Models.JoinEntities.UserPhotos", b =>
                 {
                     b.HasOne("HipstagramRepository.Models.Photo", "Photo")
@@ -112,6 +156,13 @@ namespace HipstagramRepository.Migrations
                         .WithMany("UserPhotos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HipstagramRepository.Models.Log", b =>
+                {
+                    b.HasOne("HipstagramRepository.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }
