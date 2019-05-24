@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { authHeader } from '../helpers/auth-header.js';
 
 export class Gallery extends Component {
 
@@ -8,34 +9,45 @@ export class Gallery extends Component {
         err: false
         
     }
+    updateGalleries(){
+        const API = `/api/galleries`;
+        fetch(API,
+                {
+                    method: 'GET',
+                    headers: {
+                        ...{
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        ...authHeader()
+                    }
+                })
+            .then(response => {
+                if (response.ok) {
+                    return response
+                } throw Error("Something went wrong.")
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.setState(
+                    {
+                        gallery: data
+                    }
+                )
+            })
 
+
+            .catch(error => this.setState({
+                    err: true,
+                })
+            )
+    }
     componentDidMount() {
-        // updateGalleries();
+         this.updateGalleries();
 
     }
 
-    // updateGalleries() {
-    //     const API = ``;
-    //     fetch(API)
-    //         .then(response => {
-    //           if(response.ok) {
-    //             return response
-    //           } throw Error("nie udalo sie")
-    //         })
-    //         .then(response => response.json())
-    //         .then( data => {
-    //         this.setState( 
-    //             {
-    //                name: data
-    //             }
-    //         )})
-            
-        
-    //         .catch(error => this.setState({
-    //             err: true,
-    //             })
-    //         )
-    // }
+     
 
     
     handleChange = (e) => {
@@ -51,19 +63,22 @@ export class Gallery extends Component {
 
       handleSubmit = (e) => {
         e.preventDefault()
-        fetch('https://localhost:5001/api/users/register', {
-            method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
+          fetch('/api/galleries', {
+                  method: 'POST',
+                  headers: {
+                      ...{
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json',
+                  },
+                  ...authHeader()
+              },
             body: JSON.stringify({
-                GalleryName: this.state.GalleryName,
+                Name: this.state.GalleryName,
             })
           }).then(this.setState({
               GalleryName: ""
           }))
-
+          this.updateGalleries();
       }
     
 
@@ -72,11 +87,11 @@ export class Gallery extends Component {
   
 
   render () {
-    // const gallerys = this.state.name.map(singleGallery => {
-    //     return (
-    //         <li>{singleGallery.name}</li>
-    //     )
-    // })
+     const gallerys = this.state.gallery.map(singleGallery => {
+         return (
+             <li>{singleGallery.name}</li>
+         )
+     })
     return (
       <div className="container">
           <div className="row">
@@ -98,7 +113,7 @@ export class Gallery extends Component {
          </div>
          <div className="row"> 
             <ul>
-                  {/* {gallerys} */}
+                  {gallerys} 
             </ul>
          </div>  
       </div>
