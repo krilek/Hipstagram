@@ -15,6 +15,7 @@
 
     using HipstagramServices.Interfaces;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
@@ -49,6 +50,7 @@
         }
 
         // GET: api/Galleries
+        [Authorize]
         [HttpGet]
         public ActionResult<IEnumerable<GalleryDto>> GetGalleries()
         {
@@ -80,20 +82,26 @@
         }
 
         // POST: api/Galleries
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Gallery>> PostGallery([FromBody] GalleryDto galleryDto)
         {
+            
+
+
+
             var gallery = this._mapper.Map<Gallery>(galleryDto);
 
             var userId = Convert.ToInt32(this.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
+            
             gallery.Owners = new List<UserGalleries>
                                  {
                                      new UserGalleries { Gallery = gallery, User = this._userService.GetUser(userId) }
                                  };
             this._context.Galleries.Add(gallery);
+            //Add info to log
+            this._context.Logs.Add(new Log { Activity = "Added new Gallery", Date = DateTime.Now, User = this._userService.GetUser(userId) });
             await this._context.SaveChangesAsync();
-
             return this.Ok();
         }
 
