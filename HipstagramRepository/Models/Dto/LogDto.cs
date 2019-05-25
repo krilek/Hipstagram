@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HipstagramRepository.Models.Dto
+﻿namespace HipstagramRepository.Models.Dto
 {
+    using System;
+
     public class LogDto
     {
         public string Activity { get; set; }

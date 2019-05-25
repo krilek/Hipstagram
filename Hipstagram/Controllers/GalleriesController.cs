@@ -86,10 +86,6 @@
         [HttpPost]
         public async Task<ActionResult<Gallery>> PostGallery([FromBody] GalleryDto galleryDto)
         {
-            
-
-
-
             var gallery = this._mapper.Map<Gallery>(galleryDto);
 
             var userId = Convert.ToInt32(this.User.FindFirst(ClaimTypes.NameIdentifier).Value);

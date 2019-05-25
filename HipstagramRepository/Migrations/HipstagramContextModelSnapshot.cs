@@ -90,7 +90,11 @@ namespace HipstagramRepository.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Details");
+
                     b.Property<string>("Filename");
+
+                    b.Property<string>("Title");
 
                     b.HasKey("Id");
 

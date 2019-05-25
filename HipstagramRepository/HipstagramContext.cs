@@ -12,13 +12,13 @@
         {
         }
 
-        public DbSet<Photo> Photos { get; set; }
-
-        public DbSet<User> Users { get; set; }
-
         public DbSet<Gallery> Galleries { get; set; }
 
         public DbSet<Log> Logs { get; set; }
+
+        public DbSet<Photo> Photos { get; set; }
+
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,36 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using HipstagramRepository;
-using HipstagramRepository.Models;
-using HipstagramServices.Interfaces;
-
-namespace HipstagramServices
+﻿namespace HipstagramServices
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
+
+    using HipstagramRepository;
+    using HipstagramRepository.Models;
+
+    using HipstagramServices.Interfaces;
+
     public class UserService : IUserService
     {
-        private HipstagramContext _context;
+        private readonly HipstagramContext _context;
 
         public UserService(HipstagramContext context)
         {
-            _context = context;
+            this._context = context;
         }
 
-        public User GetUser(int id)
-        {
-            return this._context.Users.FirstOrDefault(user => user.Id == id);
-        }
-
-        public IEnumerable<User> GetAll()
-        {
-            return _context.Users;
-        }
         public User Authenticate(string login, string password)
         {
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = _context.Users.SingleOrDefault(x => x.Login == login);
+            var user = this._context.Users.SingleOrDefault(x => x.Login == login);
 
             // check if username exists
             if (user == null)
@@ -50,7 +45,7 @@ namespace HipstagramServices
             if (string.IsNullOrWhiteSpace(password))
                 throw new Exception("Password is required");
 
-            if (_context.Users.Any(x => x.Login == user.Login))
+            if (this._context.Users.Any(x => x.Login == user.Login))
                 throw new Exception("Login \"" + user.Login + "\" is already taken");
 
             byte[] passwordHash, passwordSalt;
@@ -59,39 +54,51 @@ namespace HipstagramServices
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            this._context.Users.Add(user);
+            this._context.SaveChanges();
 
             return user;
         }
 
+        public IEnumerable<User> GetAll()
+        {
+            return this._context.Users;
+        }
+
+        public User GetUser(int id)
+        {
+            return this._context.Users.FirstOrDefault(user => user.Id == id);
+        }
 
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (password == null) throw new ArgumentNullException("password");
-            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+            if (string.IsNullOrWhiteSpace(password))
+                throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
 
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            using (var hmac = new HMACSHA512())
             {
                 passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
         }
 
         private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
             if (password == null) throw new ArgumentNullException("password");
-            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
-            if (storedHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
-            if (storedSalt.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
+            if (string.IsNullOrWhiteSpace(password))
+                throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+            if (storedHash.Length != 64)
+                throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
+            if (storedSalt.Length != 128)
+                throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
 
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
+            using (var hmac = new HMACSHA512(storedSalt))
             {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                for (int i = 0; i < computedHash.Length; i++)
-                {
-                    if (computedHash[i] != storedHash[i]) return false;
-                }
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                for (var i = 0; i < computedHash.Length; i++)
+                    if (computedHash[i] != storedHash[i])
+                        return false;
             }
 
             return true;

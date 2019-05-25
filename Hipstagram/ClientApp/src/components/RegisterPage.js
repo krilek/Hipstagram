@@ -14,9 +14,9 @@ class RegisterPage extends Component {
     }
   }
   messages = {
-    username_incorrect: "login should have 5 characters and should not contain spaces",
+    username_incorrect: "Login should have 5 characters and should not contain spaces",
     email_incorrect: "Email should have @",
-    password_incorrect: "Passowrd should have 8 characters minimum",
+    password_incorrect: "Password should have 8 characters minimum"
   }
 
   handleChange = (e) => {

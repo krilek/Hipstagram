@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HipstagramRepository.Migrations
 {
-    public partial class NewBaseLogsAndGalleryUpdated : Migration
+    public partial class AddedUpdatedPhotos : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,7 +26,9 @@ namespace HipstagramRepository.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Filename = table.Column<string>(nullable: true)
+                    Details = table.Column<string>(nullable: true),
+                    Filename = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

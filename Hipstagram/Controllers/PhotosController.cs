@@ -1,119 +1,129 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using HipstagramRepository;
-using HipstagramRepository.Models;
-
-namespace Hipstagram.Controllers
+﻿namespace Hipstagram.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using HipstagramRepository;
+    using HipstagramRepository.Models;
+    using HipstagramRepository.Models.Dto;
+    using HipstagramRepository.Models.JoinEntities;
+
+    using HipstagramServices.Interfaces;
+
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+
     [Route("api/[controller]")]
     [ApiController]
     public class PhotosController : ControllerBase
     {
         private const string UploadsDirectoryName = "uploads";
-        private readonly HipstagramContext _context;
-        private IHostingEnvironment _hostingEnvironment;
 
-        public PhotosController(HipstagramContext context, IHostingEnvironment environment)
+        private readonly HipstagramContext _context;
+
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        private readonly IUserService _userService;
+
+        public PhotosController(HipstagramContext context, IHostingEnvironment environment, IUserService userService)
         {
-            _hostingEnvironment = environment;
-            _context = context;
+            this._userService = userService;
+            this._hostingEnvironment = environment;
+            this._context = context;
         }
 
-        // GET: api/Photos
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Photo>>> GetPhotos()
+        // DELETE: api/Photos/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Photo>> DeletePhoto(int id)
         {
-            return await _context.Photos.ToListAsync();
+            var photo = await this._context.Photos.FindAsync(id);
+            if (photo == null) return this.NotFound();
+
+            this._context.Photos.Remove(photo);
+            await this._context.SaveChangesAsync();
+
+            return photo;
         }
 
         // GET: api/Photos/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Photo>> GetPhoto(int id)
         {
-            var photo = await _context.Photos.FindAsync(id);
+            var photo = await this._context.Photos.FindAsync(id);
 
-            if (photo == null)
-            {
-                return NotFound();
-            }
+            if (photo == null) return this.NotFound();
 
             return photo;
+        }
+
+        // GET: api/Photos
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Photo>>> GetPhotos()
+        {
+            return await this._context.Photos.ToListAsync();
+        }
+
+        // POST: api/Photos
+        [HttpPost]
+        public async Task<IActionResult> Post([FromForm] PhotoDto file)
+        {
+            if (file == null || file.File == null || file.File.Length <= 0)
+                return this.BadRequest(new { message = "File not provided." });
+
+            var uploadsDir = Path.Combine(this._hostingEnvironment.WebRootPath, UploadsDirectoryName);
+            var extension = Path.GetExtension(file.File.FileName);
+            string filePath;
+            do
+            {
+                filePath = Path.Combine(uploadsDir, Guid.NewGuid() + extension);
+            }
+            while (System.IO.File.Exists(filePath));
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.File.CopyToAsync(fileStream);
+            }
+
+            var userId = Convert.ToInt32(this.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var photo = new Photo { Filename = filePath };
+            var user = this._userService.GetUser(userId);
+            photo.Authors = new List<UserPhotos> { new UserPhotos { Photo = photo, User = user } };
+            this._context.Photos.Add(photo);
+            this._context.Logs.Add(new Log { Activity = "Added new Photo", Date = DateTime.Now, User = user });
+            await this._context.SaveChangesAsync();
+            return this.NoContent();
         }
 
         // PUT: api/Photos/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPhoto(int id, Photo photo)
         {
-            if (id != photo.Id)
-            {
-                return BadRequest();
-            }
+            if (id != photo.Id) return this.BadRequest();
 
-            _context.Entry(photo).State = EntityState.Modified;
+            this._context.Entry(photo).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await this._context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PhotoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                if (!this.PhotoExists(id)) return this.NotFound();
+                throw;
             }
 
-            return NoContent();
-        }
-
-        // POST: api/Photos
-        [HttpPost]
-        public async Task<IActionResult> Post(IEnumerable<IFormFile> files)
-        {
-            string uploads = Path.Combine(_hostingEnvironment.WebRootPath, UploadsDirectoryName);
-            foreach (var file in files)
-            {
-                if (file.Length > 0)
-                {
-                    string filePath = Path.Combine(uploads, file.FileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(fileStream);
-                    }
-                }
-            }
-            // TODO: add in a future returining a db entry for file.
-            return NoContent();
-        }
-        // DELETE: api/Photos/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Photo>> DeletePhoto(int id)
-        {
-            var photo = await _context.Photos.FindAsync(id);
-            if (photo == null)
-            {
-                return NotFound();
-            }
-
-            _context.Photos.Remove(photo);
-            await _context.SaveChangesAsync();
-
-            return photo;
+            return this.NoContent();
         }
 
         private bool PhotoExists(int id)
         {
-            return _context.Photos.Any(e => e.Id == id);
+            return this._context.Photos.Any(e => e.Id == id);
         }
     }
 }

@@ -20,7 +20,8 @@
 
         public byte[] PasswordSalt { get; set; }
 
-        public ICollection<UserPhotos> UserPhotos { get; } = new List<UserPhotos>();
-        public ICollection<UserGalleries> UserGalleries { get; } = new List<UserGalleries>();
+        public ICollection<UserGalleries> UserGalleries { get; set; } = new List<UserGalleries>();
+
+        public ICollection<UserPhotos> UserPhotos { get; set; } = new List<UserPhotos>();
     }
 }

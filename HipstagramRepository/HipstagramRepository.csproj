@@ -11,12 +11,19 @@
     <Compile Remove="Migrations\20190514234101_UpdatedUser.cs" />
     <Compile Remove="Migrations\20190514234407_UpdatedAuth.cs" />
     <Compile Remove="Migrations\20190516173458_RelationsManyToMany.cs" />
+    <Compile Remove="Migrations\20190523221416_NewBaseLogsAndGalleryUpdated.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Http.Features">
+      <HintPath>..\..\..\..\Users\krile\.nuget\packages\microsoft.aspnetcore.http.features\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

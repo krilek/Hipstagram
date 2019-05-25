@@ -1,11 +1,8 @@
-﻿using AutoMapper;
-using HipstagramRepository.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HipstagramRepository.Helpers
+﻿namespace HipstagramRepository.Helpers
 {
+    using AutoMapper;
+
+    using HipstagramRepository.Models;
     using HipstagramRepository.Models.Dto;
 
     using UserDto = HipstagramRepository.Models.UserDto;
@@ -14,11 +11,12 @@ namespace HipstagramRepository.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<User, UserDto>();
-            CreateMap<UserDto, User>();
-            CreateMap<GalleryDto, Gallery>();
-            CreateMap<Gallery, GalleryDto>();
-
+            this.CreateMap<User, UserDto>();
+            this.CreateMap<UserDto, User>();
+            this.CreateMap<GalleryDto, Gallery>();
+            this.CreateMap<Gallery, GalleryDto>();
+            this.CreateMap<Photo, PhotoDto>();
+            this.CreateMap<PhotoDto, Photo>();
         }
     }
 }
