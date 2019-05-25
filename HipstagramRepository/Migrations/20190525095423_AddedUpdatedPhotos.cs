@@ -26,7 +26,7 @@ namespace HipstagramRepository.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Details = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     Filename = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true)
                 },

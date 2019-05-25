@@ -7,6 +7,8 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using AutoMapper;
+
     using HipstagramRepository;
     using HipstagramRepository.Models;
     using HipstagramRepository.Models.Dto;
@@ -28,10 +30,17 @@
 
         private readonly IHostingEnvironment _hostingEnvironment;
 
+        private readonly IMapper _mapper;
+
         private readonly IUserService _userService;
 
-        public PhotosController(HipstagramContext context, IHostingEnvironment environment, IUserService userService)
+        public PhotosController(
+            HipstagramContext context,
+            IHostingEnvironment environment,
+            IUserService userService,
+            IMapper mapper)
         {
+            this._mapper = mapper;
             this._userService = userService;
             this._hostingEnvironment = environment;
             this._context = context;
@@ -77,22 +86,24 @@
 
             var uploadsDir = Path.Combine(this._hostingEnvironment.WebRootPath, UploadsDirectoryName);
             var extension = Path.GetExtension(file.File.FileName);
-            string filePath;
+            string relativeFilePath;
+            string localFilePath;
             do
             {
-                filePath = Path.Combine(uploadsDir, Guid.NewGuid() + extension);
+                relativeFilePath = Path.Combine(UploadsDirectoryName, Guid.NewGuid() + extension);
+                localFilePath = Path.Combine(this._hostingEnvironment.WebRootPath, relativeFilePath);
             }
-            while (System.IO.File.Exists(filePath));
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            while (System.IO.File.Exists(localFilePath));
+            using (var fileStream = new FileStream(localFilePath, FileMode.Create))
             {
                 await file.File.CopyToAsync(fileStream);
             }
 
             var userId = Convert.ToInt32(this.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-            var photo = new Photo { Filename = filePath };
             var user = this._userService.GetUser(userId);
+
+            var photo = this._mapper.Map<Photo>(file);
+            photo.Filename = relativeFilePath;
             photo.Authors = new List<UserPhotos> { new UserPhotos { Photo = photo, User = user } };
             this._context.Photos.Add(photo);
             this._context.Logs.Add(new Log { Activity = "Added new Photo", Date = DateTime.Now, User = user });

@@ -8,7 +8,7 @@
     {
         public ICollection<UserPhotos> Authors { get; set; } = new List<UserPhotos>();
 
-        public string Details { get; set; }
+        public string Description { get; set; }
 
         public string Filename { get; set; }
 

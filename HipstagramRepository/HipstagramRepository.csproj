@@ -12,6 +12,7 @@
     <Compile Remove="Migrations\20190514234407_UpdatedAuth.cs" />
     <Compile Remove="Migrations\20190516173458_RelationsManyToMany.cs" />
     <Compile Remove="Migrations\20190523221416_NewBaseLogsAndGalleryUpdated.cs" />
+    <Compile Remove="Migrations\20190524235644_AddedUpdatedPhotos.cs" />
   </ItemGroup>
 
   <ItemGroup>
