@@ -13,13 +13,11 @@ namespace Hipstagram
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
     public class Startup
     {
-        private const string DatabaseName = "hipstagram.db";
         public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
             this.Configuration = configuration;
@@ -76,8 +74,7 @@ namespace Hipstagram
             services.AddAutoMapper();
             services.AddSingleton<IHostingEnvironment>(this.Environment);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            var connection = $"Data Source={DatabaseName}";
-            services.AddDbContext<HipstagramContext>(options => options.UseSqlite(connection));
+            services.AddDbContext<HipstagramContext>();
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 

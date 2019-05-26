@@ -27,13 +27,17 @@
 
         private readonly IUserService _userService;
 
+
         private readonly IMapper _mapper;
 
-        public GalleriesController(HipstagramContext context, IMapper mapper, IUserService userService)
+        private IGalleryService _galleryService;
+
+        public GalleriesController(HipstagramContext context, IMapper mapper, IUserService userService, IGalleryService galleryService)
         {
             this._mapper = mapper;
             this._userService = userService;
             this._context = context;
+            this._galleryService = galleryService;
         }
 
         // DELETE: api/Galleries/5
@@ -57,8 +61,8 @@
             try
             {
                 var userId = Convert.ToInt32(this.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                return this._context.Galleries.Include(x => x.Owners).Where(x => x.Owners.Any(y => y.UserId == userId))
-                    .ToList().Select(g => new GalleryDto { Id = g.Id, Name = g.Name }).ToList();
+                var user = this._userService.GetUser(userId);
+                return this._galleryService.GetUserAll(user).Select(g => new GalleryDto { Id = g.Id, Name = g.Name }).ToList();
             }
             catch (FormatException e)
             {

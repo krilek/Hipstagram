@@ -1,5 +1,8 @@
 ﻿namespace HipstagramRepository
 {
+    using System;
+    using System.IO;
+
     using HipstagramRepository.Models;
     using HipstagramRepository.Models.JoinEntities;
 
@@ -7,10 +10,7 @@
 
     public class HipstagramContext : DbContext
     {
-        public HipstagramContext(DbContextOptions<HipstagramContext> options)
-            : base(options)
-        {
-        }
+        private const string DatabaseName = "hipstagram.db";
 
         public DbSet<Gallery> Galleries { get; set; }
 
@@ -19,6 +19,18 @@
         public DbSet<Photo> Photos { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (File.Exists($"../{DatabaseName}"))
+            {
+                optionsBuilder.UseSqlite($"Data Source=../{DatabaseName}");
+            }
+            else
+            {
+                throw new Exception($"Unable to find DB in this location {Path.GetFullPath("..")}");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
