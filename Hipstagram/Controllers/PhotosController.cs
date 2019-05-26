@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -12,10 +11,10 @@
     using HipstagramRepository;
     using HipstagramRepository.Models;
     using HipstagramRepository.Models.Dto;
-    using HipstagramRepository.Models.JoinEntities;
 
     using HipstagramServices.Interfaces;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -24,8 +23,6 @@
     [ApiController]
     public class PhotosController : ControllerBase
     {
-        private const string UploadsDirectoryName = "uploads";
-
         private readonly HipstagramContext _context;
 
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -34,16 +31,20 @@
 
         private readonly IUserService _userService;
 
+        private IPhotoService _photoService;
+
         public PhotosController(
             HipstagramContext context,
             IHostingEnvironment environment,
             IUserService userService,
+            IPhotoService photoService,
             IMapper mapper)
         {
             this._mapper = mapper;
             this._userService = userService;
             this._hostingEnvironment = environment;
             this._context = context;
+            this._photoService = photoService;
         }
 
         // DELETE: api/Photos/5
@@ -71,44 +72,28 @@
         }
 
         // GET: api/Photos
+        [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Photo>>> GetPhotos()
+        public async Task<ActionResult<IEnumerable<PhotoDto>>> GetPhotos()
         {
-            return await this._context.Photos.ToListAsync();
+            return await this._context.Photos.Select(x => this._mapper.Map<PhotoDto>(x)).ToListAsync();
         }
 
         // POST: api/Photos
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] PhotoDto file)
         {
-            if (file == null || file.File == null || file.File.Length <= 0)
+            if (file?.File == null || file.File.Length <= 0)
+            {
                 return this.BadRequest(new { message = "File not provided." });
-
-            var uploadsDir = Path.Combine(this._hostingEnvironment.WebRootPath, UploadsDirectoryName);
-            var extension = Path.GetExtension(file.File.FileName);
-            string relativeFilePath;
-            string localFilePath;
-            do
-            {
-                relativeFilePath = Path.Combine(UploadsDirectoryName, Guid.NewGuid() + extension);
-                localFilePath = Path.Combine(this._hostingEnvironment.WebRootPath, relativeFilePath);
-            }
-            while (System.IO.File.Exists(localFilePath));
-            using (var fileStream = new FileStream(localFilePath, FileMode.Create))
-            {
-                await file.File.CopyToAsync(fileStream);
             }
 
             var userId = Convert.ToInt32(this.User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var user = this._userService.GetUser(userId);
+            this._photoService.Add(user, file);
 
-            var photo = this._mapper.Map<Photo>(file);
-            photo.Filename = relativeFilePath;
-            photo.Authors = new List<UserPhotos> { new UserPhotos { Photo = photo, User = user } };
-            this._context.Photos.Add(photo);
-            this._context.Logs.Add(new Log { Activity = "Added new Photo", Date = DateTime.Now, User = user });
-            await this._context.SaveChangesAsync();
-            return this.NoContent();
+            return this.Ok();
         }
 
         // PUT: api/Photos/5
