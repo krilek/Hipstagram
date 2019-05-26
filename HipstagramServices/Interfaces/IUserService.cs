@@ -1,14 +1,17 @@
-﻿using HipstagramRepository.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace HipstagramServices.Interfaces
+﻿namespace HipstagramServices.Interfaces
 {
+    using System.Collections.Generic;
+
+    using HipstagramRepository.Models;
+
     public interface IUserService
     {
         User Authenticate(string username, string password);
+
         User Create(User user, string password);
+
         IEnumerable<User> GetAll();
+
+        User GetUser(int id);
     }
 }

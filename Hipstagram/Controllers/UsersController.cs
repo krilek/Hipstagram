@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Hipstagram.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
+
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase

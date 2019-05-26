@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { RegisterPage } from './components/RegisterPage';
 
@@ -9,6 +9,8 @@ import { PrivateRoute} from './components/PrivateRoute';
 import { HomePage } from './components/HomePage';
 import { LoginPage } from './components/LoginPage';
 import "./App.css";
+import { Gallery } from './components/ListGallery';
+import { SingleGalleryViev } from './components/SingleGalleryViev';
 export default class App extends Component {
   static displayName = App.name;
 
@@ -20,6 +22,8 @@ export default class App extends Component {
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} />
         <Route path='/register' component={RegisterPage} />
+        <Route path='/gallery' component={Gallery} />
+        <Route path='/singlegallery' component={SingleGalleryViev} />
       </Layout>
     );
   }

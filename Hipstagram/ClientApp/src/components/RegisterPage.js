@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 class RegisterPage extends Component {
 
@@ -14,9 +14,9 @@ class RegisterPage extends Component {
     }
   }
   messages = {
-    username_incorrect: "login should have 5 characters and should not contain spaces",
+    username_incorrect: "Login should have 5 characters and should not contain spaces",
     email_incorrect: "Email should have @",
-    password_incorrect: "Passowrd should have 8 characters minimum",
+    password_incorrect: "Password should have 8 characters minimum"
   }
 
   handleChange = (e) => {
