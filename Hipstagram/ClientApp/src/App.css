@@ -35,3 +35,6 @@ div.kafelek{
 .addNewGallery{
     border-radius: 15px;
 }
+li{
+    list-style-type: none;
+}
