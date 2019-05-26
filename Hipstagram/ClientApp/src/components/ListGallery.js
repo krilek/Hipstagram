@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { authHeader } from '../helpers/auth-header.js';
+import {SingleGallery} from './SingleGallery'
+const API = `/api/galleries`;
 
 export class Gallery extends Component {
 
     state = {
         GalleryName: "",
         gallery: [],
-        err: false
-        
+        err: false ,
     }
+
     updateGalleries(){
-        const API = `/api/galleries`;
         fetch(API,
                 {
                     method: 'GET',
@@ -35,13 +36,12 @@ export class Gallery extends Component {
                     }
                 )
             })
-
-
             .catch(error => this.setState({
                     err: true,
                 })
             )
     }
+
     componentDidMount() {
          this.updateGalleries();
 
@@ -60,10 +60,11 @@ export class Gallery extends Component {
           })
         } 
       }
+      
 
       handleSubmit = (e) => {
         e.preventDefault()
-          fetch('/api/galleries', {
+          fetch(API, {
                   method: 'POST',
                   headers: {
                       ...{
@@ -80,18 +81,18 @@ export class Gallery extends Component {
           }))
           this.updateGalleries();
       }
+      
+      
     
-
 
 
   
 
   render () {
-     const gallerys = this.state.gallery.map(singleGallery => {
-         return (
-             <li>{singleGallery.name}</li>
-         )
-     })
+
+     const gallerys = this.state.gallery.map(data => <SingleGallery key={data.id} id={data.id} data={data.name}/> )
+         
+     
     return (
       <div className="container">
           <div className="row">
@@ -112,9 +113,7 @@ export class Gallery extends Component {
                     </form>
          </div>
          <div className="row"> 
-            <ul>
-                  {gallerys} 
-            </ul>
+                  {gallerys}
          </div>  
       </div>
     );
