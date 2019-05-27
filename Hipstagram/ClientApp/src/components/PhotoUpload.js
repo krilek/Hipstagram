@@ -60,7 +60,7 @@ export class photoUpload extends Component {
             <input name="Description" value={this.state.Description} className="form-control" onChange={this.handleChange} />
             <input type="file" onChange={this.onChange} />
             <button type="submit">Upload</button>
-            </form>
+        </form>
     )
 }
 

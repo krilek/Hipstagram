@@ -26,11 +26,9 @@ export default class App extends Component {
         <Route path='/register' component={RegisterPage} />
         <Route path='/gallery' component={Gallery} />
         <Route path='/singlegallery/:id' component={SingleGalleryViev} />
-        <Route path='/photoUpload ' component={photoUpload } />
+        <Route path='/photoUpload' component={photoUpload } />
         <Route path='/list-of-photos' component={ListOfPhotos} />
         <Route path='/populateGallery/:id' component={populateGallery} />
-
-
       </Layout>
     );
   }

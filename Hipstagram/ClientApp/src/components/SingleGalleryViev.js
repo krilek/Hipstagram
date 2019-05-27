@@ -13,13 +13,13 @@ export class SingleGalleryViev extends Component {
         return (
             <div className="container">
                 <div className="row">
-                <div className="col-sm-6 col-md-4 py-5 " > 
-                 <h5 >Gallery number: {this.props.location.state}</h5>
+                <div className="col-sm-6 col-md-12 py-5 text-center" > 
+                <h3>Gallery number: {this.props.location.state}</h3>
                 <NavLink tag={Link} className="text-dark goToLogin" to={{pathname: `/populateGallery/${this.props.location.state}`, state: this.props.location.state}}>Add photo to gallery</NavLink>
              </div>
             </div>
             <div className="row">
-                <div className="col-sm-6 col-md-4 py-5 " > 
+                <div className="col-sm-6 col-md-12 py-5 " > 
                   <ListOfPhotos></ListOfPhotos>
                 </div>
             </div>

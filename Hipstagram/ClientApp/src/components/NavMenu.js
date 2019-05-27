@@ -31,6 +31,12 @@ export class NavMenu extends Component {
               hideWhenLogged: false
       },
           {
+            to: "/photoUpload",
+            content: "Add photo to acc",
+            private: false,
+            hideWhenLogged: false
+      },
+          {
               to: "/login",
               content: "Login",
               private: false,
