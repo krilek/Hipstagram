@@ -25,12 +25,6 @@ export class NavMenu extends Component {
                         hideWhenLogged: false
       },
           {
-              to: "/counter",
-              content: "Counter",
-              private: true,
-              hideWhenLogged: false
-      },
-          {
               to: "/fetch-data",
               content: "Fetch data",
               private: false,
@@ -75,9 +69,7 @@ export class NavMenu extends Component {
                 return ( < NavItem >  < NavLink
                 tag = { Link }
                 className = "text-dark"
-                to = { navItem.to } > { navItem.content } < /
-                NavLink >  < /
-                NavItem > )
+                to = { navItem.to } > { navItem.content } </NavLink >  </NavItem > )
 
             } else {
                 return

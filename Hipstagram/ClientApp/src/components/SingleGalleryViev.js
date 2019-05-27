@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { NavLink } from 'reactstrap';
+import { Link } from 'react-router-dom';
+export class SingleGalleryViev extends Component {
+   
 
-export const SingleGalleryViev = () => {
+    componentDidMount() {
+        console.log(this.props.location.state);
+    }
     
-    return (
-      
-        <div > 
-            elo
-        </div>
-      
-     )
+    render() {
+        return (
+             <div>
+                 {/* <NavLink tag={Link} className="text-dark goToLogin" to={{pathname: `/singlegallery/${id}`, state: id}}>{props.data}</NavLink> */}
+             </div>
+        );
+    }
+   
 }
 
          

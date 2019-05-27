@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { authHeader } from '../helpers/auth-header.js';
-import {SingleGallery} from './SingleGallery'
+import { SinglePhoto } from './SinglePhoto.js';
 
-const API = `/api/galleries`;
 
-export class Gallery extends Component {
+const API = `/api/photos/`;
+
+export class ListOfPhotos extends Component {
 
     state = {
-        GalleryName: "",
-        gallery: [],
+        PhotosName: "",
+        photos: [],
         err: false ,
     }
 
-    updateGalleries(){
+    update(){
         fetch(API,
                 {
                     method: 'GET',
@@ -31,9 +32,10 @@ export class Gallery extends Component {
             })
             .then(response => response.json())
             .then(data => {
+                console.log(data)
                 this.setState(
                     {
-                        gallery: data
+                        photos: data
                     }
                 )
             })
@@ -44,7 +46,7 @@ export class Gallery extends Component {
     }
 
     componentDidMount() {
-         this.updateGalleries();
+         this.update();
 
     }
 
@@ -75,10 +77,10 @@ export class Gallery extends Component {
                   ...authHeader()
               },
             body: JSON.stringify({
-                Name: this.state.GalleryName,
+                Name: this.state.PhotosName,
             })
           }).then(this.setState({
-              GalleryName: ""
+            PhotosName: ""
           }))
           this.updateGalleries();
       }
@@ -91,7 +93,7 @@ export class Gallery extends Component {
 
   render () {
 
-     const gallerys = this.state.gallery.map(data => <SingleGallery key={data.id} id={data.id} data={data.name}/> )
+     const photos = this.state.photos.map(data => <SinglePhoto key={data.id} id={data.id} data={data.name}/> )
          
      
     return (
@@ -114,7 +116,7 @@ export class Gallery extends Component {
                     </form>
          </div>
          <div className="row"> 
-                  {gallerys}
+                  {photos}
          </div>  
       </div>
     );

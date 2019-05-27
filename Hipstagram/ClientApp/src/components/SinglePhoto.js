@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-export const SingleGallery = (props) => {
+export const SinglePhoto = (props) => {
     const {id} = props
      
     return (
@@ -12,8 +12,8 @@ export const SingleGallery = (props) => {
         <div className="card" >
             
             <div className="card-body ">
-            <h5 className="card-title">{}</h5>
-            <NavLink tag={Link} className="text-dark goToLogin" to={{pathname: `/singlegallery/${id}`, state: id}}>{props.data}</NavLink>
+            <h5 className="card-title">{id}</h5>
+           
             </div>
             </div> 
         </div>
