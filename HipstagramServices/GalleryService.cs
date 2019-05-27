@@ -1,5 +1,6 @@
 ﻿namespace HipstagramServices
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -15,6 +16,7 @@
     public class GalleryService : IGalleryService
     {
         private readonly HipstagramContext _context;
+
         private readonly IPhotoService _photoService;
 
         public GalleryService(HipstagramContext context, IPhotoService photoService)
@@ -23,9 +25,13 @@
             this._photoService = photoService;
         }
 
-        public void AddGallery(Gallery gallery)
+        public void AddGallery(User owner, Gallery gallery)
         {
+            gallery.Owners = new List<UserGalleries> { new UserGalleries { Gallery = gallery, User = owner } };
             this._context.Galleries.Add(gallery);
+
+            // Add info to log
+            this._context.Logs.Add(new Log { Activity = "Added new Gallery", Date = DateTime.Now, User = owner });
             this._context.SaveChanges();
         }
 
@@ -50,8 +56,6 @@
         {
             return this._context.Galleries;
         }
-
-
 
         public IEnumerable<Gallery> GetUserAll(User u)
         {

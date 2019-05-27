@@ -11,7 +11,6 @@
     using HipstagramRepository;
     using HipstagramRepository.Models;
     using HipstagramRepository.Models.Dto;
-    using HipstagramRepository.Models.JoinEntities;
 
     using HipstagramServices.Interfaces;
 
@@ -31,24 +30,26 @@
 
         private IGalleryService _galleryService;
 
+        private IPhotoService _photoService;
+
         public GalleriesController(
             HipstagramContext context,
             IMapper mapper,
             IUserService userService,
-            IGalleryService galleryService)
+            IGalleryService galleryService,
+            IPhotoService photoService)
         {
             this._mapper = mapper;
             this._userService = userService;
             this._context = context;
             this._galleryService = galleryService;
+            this._photoService = photoService;
         }
 
         [HttpPut("populate")]
         public IActionResult AddPhotosToGallery([FromBody] GalleryPhotosDto galleryPhotosDto)
         {
-            this._galleryService.AddPhotos(
-                galleryPhotosDto.Gallery,
-                galleryPhotosDto.Photos.ToArray());
+            this._galleryService.AddPhotos(galleryPhotosDto.Gallery, galleryPhotosDto.Photos.ToArray());
             return this.Ok();
         }
 
@@ -98,28 +99,21 @@
             return gallery;
         }
 
+        [HttpGet("{id}/photos")]
+        public IEnumerable<PhotoDto> GetGalleryPhotos(int id)
+        {
+            return this._photoService.GetFromGallery(new Gallery { Id = id }).Select(x => Mapper.Map<PhotoDto>(x));
+        }
+
         // POST: api/Galleries
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<Gallery>> PostGallery([FromBody] GalleryDto galleryDto)
+        public ActionResult<Gallery> PostGallery([FromBody] GalleryDto galleryDto)
         {
             var gallery = this._mapper.Map<Gallery>(galleryDto);
-
             var userId = Convert.ToInt32(this.User.FindFirst(ClaimTypes.NameIdentifier).Value);
             User user = this._userService.GetUser(userId);
-            gallery.Owners = new List<UserGalleries>
-                                 {
-                                     new UserGalleries { Gallery = gallery, User = user }
-                                 };
-            this._context.Galleries.Add(gallery);
-
-            // Add info to log
-            this._context.Logs.Add(
-                new Log
-                    {
-                        Activity = "Added new Gallery", Date = DateTime.Now, User = user
-                    });
-            await this._context.SaveChangesAsync();
+            this._galleryService.AddGallery(user, gallery);
             return this.Ok();
         }
 

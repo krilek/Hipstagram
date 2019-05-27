@@ -60,6 +60,12 @@ export class NavMenu extends Component {
               private: true,
               hideWhenLogged: false
           },
+          {
+              to: "/logs",
+              content: "Logs",
+              private: false,
+              hideWhenLogged: false
+          },
       ]
   }
 
