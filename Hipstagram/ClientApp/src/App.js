@@ -9,8 +9,9 @@ import { HomePage } from './components/HomePage';
 import { LoginPage } from './components/LoginPage';
 import { Gallery } from './components/ListGallery';
 import { SingleGalleryViev } from './components/SingleGalleryViev';
-import {PopulateGallery} from './components/populateGallery';
+import {populateGallery} from './components/populateGallery';
 import "./App.css";
+import {photoUpload} from "./components/PhotoUpload";
 import { ListOfPhotos } from './components/ListOfPhotos';
 export default class App extends Component {
   static displayName = App.name;
@@ -25,8 +26,9 @@ export default class App extends Component {
         <Route path='/register' component={RegisterPage} />
         <Route path='/gallery' component={Gallery} />
         <Route path='/singlegallery/:id' component={SingleGalleryViev} />
-        <Route path='/populateGallery' component={PopulateGallery} />
+        <Route path='/photoUpload ' component={photoUpload } />
         <Route path='/list-of-photos' component={ListOfPhotos} />
+        <Route path='/populateGallery/:id' component={populateGallery} />
 
 
       </Layout>

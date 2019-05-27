@@ -63,7 +63,7 @@ export class Gallery extends Component {
 
       handleSubmit = (e) => {
           e.preventDefault()
-          addGallery(this.state.GalleryName)
+          this.addGallery(this.state.GalleryName)
       }
       
     removeHandler = (id) => {

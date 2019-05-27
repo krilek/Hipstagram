@@ -13,7 +13,8 @@ export const SinglePhoto = (props) => {
             
             <div className="card-body ">
             <h5 className="card-title">{id}</h5>
-           
+            <img  className="img-fluid" src="uploads\946b619c-7821-4bd9-b09d-543f6eafc2d7.jpg"></img>
+         
             </div>
             </div> 
         </div>
