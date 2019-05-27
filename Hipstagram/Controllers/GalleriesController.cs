@@ -25,19 +25,31 @@
     {
         private readonly HipstagramContext _context;
 
-        private readonly IUserService _userService;
-
-
         private readonly IMapper _mapper;
+
+        private readonly IUserService _userService;
 
         private IGalleryService _galleryService;
 
-        public GalleriesController(HipstagramContext context, IMapper mapper, IUserService userService, IGalleryService galleryService)
+        public GalleriesController(
+            HipstagramContext context,
+            IMapper mapper,
+            IUserService userService,
+            IGalleryService galleryService)
         {
             this._mapper = mapper;
             this._userService = userService;
             this._context = context;
             this._galleryService = galleryService;
+        }
+
+        [HttpPut("populate")]
+        public IActionResult AddPhotosToGallery([FromBody] GalleryPhotosDto galleryPhotosDto)
+        {
+            this._galleryService.AddPhotos(
+                galleryPhotosDto.Gallery,
+                galleryPhotosDto.Photos.ToArray());
+            return this.Ok();
         }
 
         // DELETE: api/Galleries/5
@@ -62,7 +74,8 @@
             {
                 var userId = Convert.ToInt32(this.User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 var user = this._userService.GetUser(userId);
-                return this._galleryService.GetUserAll(user).Select(g => new GalleryDto { Id = g.Id, Name = g.Name }).ToList();
+                return this._galleryService.GetUserAll(user).Select(g => new GalleryDto { Id = g.Id, Name = g.Name })
+                    .ToList();
             }
             catch (FormatException e)
             {
@@ -93,14 +106,19 @@
             var gallery = this._mapper.Map<Gallery>(galleryDto);
 
             var userId = Convert.ToInt32(this.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            
+            User user = this._userService.GetUser(userId);
             gallery.Owners = new List<UserGalleries>
                                  {
-                                     new UserGalleries { Gallery = gallery, User = this._userService.GetUser(userId) }
+                                     new UserGalleries { Gallery = gallery, User = user }
                                  };
             this._context.Galleries.Add(gallery);
-            //Add info to log
-            this._context.Logs.Add(new Log { Activity = "Added new Gallery", Date = DateTime.Now, User = this._userService.GetUser(userId) });
+
+            // Add info to log
+            this._context.Logs.Add(
+                new Log
+                    {
+                        Activity = "Added new Gallery", Date = DateTime.Now, User = user
+                    });
             await this._context.SaveChangesAsync();
             return this.Ok();
         }

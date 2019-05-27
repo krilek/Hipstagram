@@ -9,7 +9,7 @@
     {
         void AddGallery(Gallery gallery);
 
-        void AddPhotos(GalleryDto gallery, params Photo[] photos);
+        void AddPhotos(GalleryDto gallery, params PhotoDto[] photos);
 
         Gallery Get(int id);
 

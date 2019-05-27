@@ -53,6 +53,11 @@
             return this._context.Photos.Include(x => x.Authors).Where(x => x.Authors.Any(y => y.UserId == user.Id));
         }
 
+        public Photo Get(int id)
+        {
+            return this._context.Photos.Single(x => x.Id == id);
+        }
+
         public IEnumerable<Photo> GetAll()
         {
             return this._context.Photos;
@@ -60,6 +65,7 @@
 
         public IEnumerable<Photo> GetFromGallery(Gallery gallery)
         {
+            var xd = this._context.Galleries.Where(x => x.Id == gallery.Id).ToList();
             return this._context.Galleries.Where(x => x.Id == gallery.Id).Include(x => x.Photos).FirstOrDefault()
                 ?.Photos.Select(x => x.Photo);
         }

@@ -84,7 +84,7 @@
         // POST: api/Photos
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] PhotoDto file)
+        public IActionResult Post([FromForm] PhotoDto file)
         {
             if (file?.File == null || file.File.Length <= 0)
             {

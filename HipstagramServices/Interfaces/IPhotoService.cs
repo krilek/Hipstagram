@@ -14,5 +14,7 @@
         IEnumerable<Photo> GetFromGallery(Gallery gallery);
 
         IEnumerable<Photo> GetUserPhotos(User user);
+
+        Photo Get(int id);
     }
 }

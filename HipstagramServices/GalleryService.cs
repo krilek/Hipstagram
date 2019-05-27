@@ -15,10 +15,12 @@
     public class GalleryService : IGalleryService
     {
         private readonly HipstagramContext _context;
+        private readonly IPhotoService _photoService;
 
-        public GalleryService(HipstagramContext context)
+        public GalleryService(HipstagramContext context, IPhotoService photoService)
         {
             this._context = context;
+            this._photoService = photoService;
         }
 
         public void AddGallery(Gallery gallery)
@@ -27,19 +29,18 @@
             this._context.SaveChanges();
         }
 
-        public void AddPhotos(GalleryDto galleryDto, params Photo[] photos)
+        public void AddPhotos(GalleryDto galleryDto, params PhotoDto[] photos)
         {
             Gallery gallery = this.Get(galleryDto.Id);
             foreach (var photo in photos)
             {
-                gallery.Photos.Add(new GalleryPhotos { Gallery = gallery, Photo = photo });
+                if (gallery.Photos.Any(x => x.PhotoId == photo.Id)) continue;
+                gallery.Photos.Add(new GalleryPhotos { Gallery = gallery, PhotoId = photo.Id });
             }
-
-            this._context.Entry(gallery).State = EntityState.Modified;
 
             try
             {
-                this._context.SaveChangesAsync();
+                this._context.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -49,7 +50,7 @@
 
         public Gallery Get(int id)
         {
-            return this._context.Galleries.FirstOrDefault(x => x.Id == id);
+            return this._context.Galleries.Include(x => x.Photos).Single(x => x.Id == id);
         }
 
         public IEnumerable<Gallery> GetAll()

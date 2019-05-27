@@ -81,6 +81,7 @@ namespace Hipstagram
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPhotoService, PhotoService>();
+            services.AddScoped<IGalleryService, GalleryService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
