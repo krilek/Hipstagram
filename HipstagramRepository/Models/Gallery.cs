@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HipstagramRepository.Models
+﻿namespace HipstagramRepository.Models
 {
+    using System.Collections.Generic;
+
+    using HipstagramRepository.Models.JoinEntities;
+
     public class Gallery
     {
         public int Id { get; set; }
+
         public string Name { get; set; }
-        public ICollection<Photo> Photos { get; set; }
+
+        public ICollection<UserGalleries> Owners { get; set; }
+
+        public ICollection<GalleryPhotos> Photos { get; set; }
     }
 }

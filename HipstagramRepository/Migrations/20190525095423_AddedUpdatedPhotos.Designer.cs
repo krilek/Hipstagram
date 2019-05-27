@@ -3,14 +3,16 @@ using System;
 using HipstagramRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HipstagramRepository.Migrations
 {
     [DbContext(typeof(HipstagramContext))]
-    partial class HipstagramContextModelSnapshot : ModelSnapshot
+    [Migration("20190525095423_AddedUpdatedPhotos")]
+    partial class AddedUpdatedPhotos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

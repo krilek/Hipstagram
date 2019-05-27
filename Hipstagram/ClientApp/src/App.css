@@ -1,0 +1,40 @@
+input {
+    border: none !important;
+    border-radius: 4px;
+    border-bottom: 2px solid blue !important;
+}
+input:focus{
+    box-shadow: none !important;
+    border: none !important;
+    border-bottom: 2px solid green !important;
+}
+
+button.register{
+    font-size: 20px;
+    width: 200px;
+    border-radius: 20px !important; 
+
+    
+}
+button:hover{
+    background-color: green !important;
+}
+
+.help-block{
+    color:red;
+}
+
+.goToLogin{
+    color:green !important;
+}
+div.kafelek{
+    border:solid black;
+    height: 100px;
+    width: 100px;
+}
+.addNewGallery{
+    border-radius: 15px;
+}
+li{
+    list-style-type: none;
+}

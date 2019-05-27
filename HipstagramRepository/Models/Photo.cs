@@ -1,13 +1,21 @@
-﻿using System.Collections.Generic;
-
-namespace HipstagramRepository.Models
+﻿namespace HipstagramRepository.Models
 {
-    // https://blog.oneunicorn.com/2017/09/25/many-to-many-relationships-in-ef-core-2-0-part-1-the-basics/
+    using System.Collections.Generic;
+
+    using HipstagramRepository.Models.JoinEntities;
+
     public class Photo
     {
+        public ICollection<UserPhotos> Authors { get; set; } = new List<UserPhotos>();
+
+        public string Description { get; set; }
+
         public string Filename { get; set; }
+
+        public ICollection<GalleryPhotos> Galleries { get; set; } = new List<GalleryPhotos>();
+
         public int Id { get; set; }
-        public ICollection<Gallery> Galleries { get; set; }
-        public ICollection<User> Authors { get; set; }
+
+        public string Title { get; set; }
     }
 }
