@@ -10,9 +10,51 @@ export class NavMenu extends Component {
     super(props);
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      collapsed: true
-    };
+      this.state = {
+          collapsed: true,
+          signedIn: false
+      };
+      if (localStorage.getItem('user') !== null) {
+          this.state.signedIn = true;
+      }
+      this.navItems = [
+          {
+          to: "/",
+              content: "Home",
+              private: false,
+                        hideWhenLogged: false
+      },
+          {
+              to: "/counter",
+              content: "Counter",
+              private: true,
+              hideWhenLogged: false
+      },
+          {
+              to: "/fetch-data",
+              content: "Fetch data",
+              private: false,
+              hideWhenLogged: false
+      },
+          {
+              to: "/login",
+              content: "Login",
+              private: false,
+              hideWhenLogged: true
+      },
+          {
+              to: "/register",
+              content: "Register",
+              private: false,
+              hideWhenLogged: true
+      },
+          {
+              to: "/gallery",
+              content: "Gallery",
+              private: true,
+              hideWhenLogged: false
+      }
+      ]
   }
 
   toggleNavbar () {
@@ -45,9 +87,12 @@ export class NavMenu extends Component {
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/register">Register</NavLink>
                 </NavItem>
+                {this.state.signedIn &&
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/gallery">Gallery</NavLink>
+                    <NavLink tag={Link} className="text-dark" to="/gallery">Gallery</NavLink>
                 </NavItem>
+                }
+
               </ul>
             </Collapse>
           </Container>
