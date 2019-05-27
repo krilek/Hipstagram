@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { authHeader } from '../helpers/auth-header.js';
 import {SingleGallery} from './SingleGallery'
-const API = `/api/galleries`;
+const API = `/api/galleries/`;
 
 export class Gallery extends Component {
 
@@ -44,7 +44,6 @@ export class Gallery extends Component {
 
     componentDidMount() {
          this.updateGalleries();
-
     }
 
      
@@ -63,34 +62,61 @@ export class Gallery extends Component {
       
 
       handleSubmit = (e) => {
-        e.preventDefault()
-          fetch(API, {
-                  method: 'POST',
-                  headers: {
-                      ...{
-                      'Accept': 'application/json',
-                      'Content-Type': 'application/json',
-                  },
-                  ...authHeader()
-              },
+          e.preventDefault()
+          addGallery(this.state.GalleryName)
+      }
+      
+    removeHandler = (id) => {
+        this.deleteGallery(id)
+    }
+
+    addGallery(galleryName) {
+        fetch(API, {
+            method: 'POST',
+            headers: {
+                ...{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                ...authHeader()
+            },
+            body: JSON.stringify({
+                Name: galleryName,
+            })
+        }).then(() => {
+                this.updateGalleries();
+                this.setState({
+                    GalleryName: ""
+                })
+            }
+        )
+    }
+
+    deleteGallery(id) {
+        fetch(`${API}${id}`, {
+            method: 'DELETE',
+            headers: {
+                ...{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                ...authHeader()
+            },
             body: JSON.stringify({
                 Name: this.state.GalleryName,
             })
-          }).then(this.setState({
-              GalleryName: ""
-          }))
-          this.updateGalleries();
-      }
-      
-      
-    
+        }).then(() => {
+                this.updateGalleries();
+            }
+        )
+    }
 
 
   
 
   render () {
 
-     const gallerys = this.state.gallery.map(data => <SingleGallery key={data.id} id={data.id} data={data.name}/> )
+      const galleries = this.state.gallery.map(data => <SingleGallery key={data.id} id={data.id} data={data.name} removeHandler={this.removeHandler}/> )
          
      
     return (
@@ -113,7 +139,7 @@ export class Gallery extends Component {
                     </form>
          </div>
          <div className="row"> 
-                  {gallerys}
+                  {galleries}
          </div>  
       </div>
     );
