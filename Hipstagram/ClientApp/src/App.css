@@ -12,9 +12,7 @@ input:focus{
 button.register{
     font-size: 20px;
     width: 200px;
-    border-radius: 20px !important; 
-
-    
+    border-radius: 20px !important;
 }
 button:hover{
     background-color: green !important;

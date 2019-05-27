@@ -38,14 +38,7 @@
                 gallery.Photos.Add(new GalleryPhotos { Gallery = gallery, PhotoId = photo.Id });
             }
 
-            try
-            {
-                this._context.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                // TODO: Add something
-            }
+            this._context.SaveChanges();
         }
 
         public Gallery Get(int id)
