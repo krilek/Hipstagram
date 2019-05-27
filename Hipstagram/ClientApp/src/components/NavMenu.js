@@ -53,7 +53,13 @@ export class NavMenu extends Component {
               content: "Gallery",
               private: true,
               hideWhenLogged: false
-      }
+          },
+          {
+              to: "/login",
+              content: "Logout",
+              private: true,
+              hideWhenLogged: false
+          },
       ]
   }
 
