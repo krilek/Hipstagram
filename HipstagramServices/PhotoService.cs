@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     using AutoMapper;
 
@@ -15,6 +16,7 @@
 
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.EntityFrameworkCore;
 
     public class PhotoService : IPhotoService
     {
@@ -46,16 +48,27 @@
             await this._context.SaveChangesAsync();
         }
 
-        public IEnumerable<Photo> Get(User user)
+        public IEnumerable<Photo> GetUserPhotos(User user)
         {
-            throw new NotImplementedException();
+            return this._context.Photos.Include(x => x.Authors).Where(x => x.Authors.Any(y => y.UserId == user.Id));
+        }
+
+        public Photo Get(int id)
+        {
+            return this._context.Photos.Single(x => x.Id == id);
         }
 
         public IEnumerable<Photo> GetAll()
         {
-            throw new NotImplementedException();
+            return this._context.Photos;
         }
 
+        public IEnumerable<Photo> GetFromGallery(Gallery gallery)
+        {
+            var xd = this._context.Galleries.Where(x => x.Id == gallery.Id).ToList();
+            return this._context.Galleries.Where(x => x.Id == gallery.Id).Include(x => x.Photos).FirstOrDefault()
+                ?.Photos.Select(x => x.Photo);
+        }
         private string GeneratePhotoFileName(IFormFile file)
         {
             string extension = Path.GetExtension(file.FileName);

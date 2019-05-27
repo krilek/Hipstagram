@@ -74,15 +74,17 @@
         // GET: api/Photos
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PhotoDto>>> GetPhotos()
+        public ActionResult<IEnumerable<PhotoDto>> GetPhotos()
         {
-            return await this._context.Photos.Select(x => this._mapper.Map<PhotoDto>(x)).ToListAsync();
+            var userId = Convert.ToInt32(this.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var user = this._userService.GetUser(userId);
+            return this._photoService.GetUserPhotos(user).Select(x => this._mapper.Map<PhotoDto>(x)).ToList();
         }
 
         // POST: api/Photos
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] PhotoDto file)
+        public IActionResult Post([FromForm] PhotoDto file)
         {
             if (file?.File == null || file.File.Length <= 0)
             {

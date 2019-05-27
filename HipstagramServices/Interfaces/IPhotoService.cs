@@ -9,8 +9,12 @@
     {
         void Add(User user, PhotoDto photo);
 
-        IEnumerable<Photo> Get(User user);
-
         IEnumerable<Photo> GetAll();
+
+        IEnumerable<Photo> GetFromGallery(Gallery gallery);
+
+        IEnumerable<Photo> GetUserPhotos(User user);
+
+        Photo Get(int id);
     }
 }
