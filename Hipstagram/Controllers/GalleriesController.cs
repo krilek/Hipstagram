@@ -102,7 +102,7 @@
         [HttpGet("{id}/photos")]
         public IEnumerable<PhotoDto> GetGalleryPhotos(int id)
         {
-            return this._photoService.GetFromGallery(new Gallery { Id = id }).Select(x => Mapper.Map<PhotoDto>(x));
+            return this._photoService.GetFromGallery(new Gallery { Id = id }).Select(this._mapper.Map<PhotoDto>);
         }
 
         // POST: api/Galleries

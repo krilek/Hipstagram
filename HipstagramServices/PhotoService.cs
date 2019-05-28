@@ -60,8 +60,8 @@
 
         public IEnumerable<Photo> GetFromGallery(Gallery gallery)
         {
-            return this._context.Galleries.Where(x => x.Id == gallery.Id).Include(x => x.Photos).FirstOrDefault()
-                ?.Photos.Select(x => x.Photo);
+            return this._context.Galleries.Where(x => x.Id == gallery.Id).Include(x => x.Photos)
+                .ThenInclude(x => x.Photo).FirstOrDefault()?.Photos.Select(x => x.Photo);
         }
 
         public IEnumerable<Photo> GetUserPhotos(User user)
