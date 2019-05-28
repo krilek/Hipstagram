@@ -5,6 +5,7 @@ const API = `/api/photos/`;
 export class populateGallery  extends Component {
     state = {
         photos: [],
+        selectedPhotos: [],
         err: false ,
     }
 
@@ -44,18 +45,47 @@ export class populateGallery  extends Component {
          this.update();
 
     }
+    
+    handleClick = (e) => {
+        this.state.selectedPhotos.indexOf(e) === -1 ? this.state.selectedPhotos.push(e) : console.log("This item already exists");
+        console.log(this.state.selectedPhotos)
+    }
+    
+    handleSubmit = (e) => {
+        let photos = [];
+        for(let i=0; i<this.state.selectedPhotos.length; i++){
+            photos.push({Id: this.state.selectedPhotos[i] })
+        }
+        e.preventDefault();
+        fetch("api/galleries/populate", {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            Gallery: {Id:this.props.location.state},
+            Photos: photos
+        })
+       
+    })
+    }
+
+
 
   
 
   render () {
 
-     const photos = this.state.photos.map(data => <SinglePhoto key={data.id} id={data.id} data={data.name}/> )
+     const photos = this.state.photos.map(data => <SinglePhoto key={data.id} id={data.id} data={data.name} click={this.handleClick} /> )
          
      
     return (
       <div className="container">
           
-     
+          <form onSubmit={this.handleSubmit}>
+                <button type="submit" class="btn btn-primary">Add selected photos</button>
+        </form>
          <div className="row"> 
                   {photos}
          </div>  
