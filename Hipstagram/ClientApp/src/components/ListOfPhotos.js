@@ -2,51 +2,48 @@ import React, { Component } from 'react';
 import { authHeader } from '../helpers/auth-header.js';
 import { SinglePhoto } from './SinglePhoto.js';
 
-
-const API = `/api/photos/`;
-
 export class ListOfPhotos extends Component {
 
     state = {
+        API: this.props.api !== null ? this.props.api : `/api/photos/`,
         photos: [],
-        err: false ,
+        err: false,
     }
 
-    update(){
-        fetch(API,
-                {
-                    method: 'GET',
-                    headers: {
-                        ...{
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        ...authHeader()
-                    }
-                })
-            .then(response => {
-                if (response.ok) {
-                    return response
-                } throw Error("Something went wrong.")
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                this.setState(
+    update() {
+        fetch(this.state.API,
                     {
-                        photos: data
-                    }
-                )
-            })
-            .catch(error => this.setState({
-                    err: true,
+                        method: 'GET',
+                        headers: {
+                            ...{
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            ...authHeader()
+                        }
+                    })
+                .then(response => {
+                    if (response.ok) {
+                        return response
+                    } throw Error("Something went wrong.")
                 })
-            )
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    this.setState(
+                        {
+                            photos: data
+                        }
+                    )
+                })
+                .catch(error => this.setState({
+                        err: true,
+                    })
+                )
     }
 
     componentDidMount() {
          this.update();
-
     }
 
      

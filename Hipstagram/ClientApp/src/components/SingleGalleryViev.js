@@ -3,12 +3,6 @@ import { NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { ListOfPhotos } from './ListOfPhotos'
 export class SingleGalleryViev extends Component {
-   
-
-    componentDidMount() {
-        console.log(this.props.location.state);
-    }
-    
     render() {
         return (
             <div className="container">
@@ -20,7 +14,7 @@ export class SingleGalleryViev extends Component {
             </div>
             <div className="row">
                 <div className="col-sm-6 col-md-12 py-5 " > 
-                  <ListOfPhotos></ListOfPhotos>
+                        <ListOfPhotos api="/api/galleries/15/photos"></ListOfPhotos>
                 </div>
             </div>
             </div>
