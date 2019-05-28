@@ -3,13 +3,14 @@ import { authHeader } from '../helpers/auth-header.js';
 import { SinglePhoto } from './SinglePhoto.js';
 
 export class ListOfPhotos extends Component {
-
-    state = {
-        API: this.props.api !== null ? this.props.api : `/api/photos/`,
-        photos: [],
-        err: false,
+    constructor(props) {
+        super(props)
+        this.state = {
+            API: this.props.api == null ? `/api/photos/` : this.props.api,
+            photos: [],
+            err: false,
+        }
     }
-
     update() {
         fetch(this.state.API,
                     {
@@ -29,7 +30,6 @@ export class ListOfPhotos extends Component {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
                     this.setState(
                         {
                             photos: data
@@ -45,34 +45,13 @@ export class ListOfPhotos extends Component {
     componentDidMount() {
          this.update();
     }
-
-     
-
     
-
-      
-
-      
-      
-      
-    
-
-
-  
-
   render () {
-
-     const photos = this.state.photos.map(data => <SinglePhoto key={data.id} id={data.id} data={data.name}/> )
-         
-     
-    return (
-      <div className="container">
-          
-     
+      const photos = this.state.photos.map(data => <SinglePhoto key={data.id} photoData={data} clickEvent={this.props.handlePhotoClick == null ? () => { } : this.props.handlePhotoClick} /> )
+      return (
          <div className="row"> 
                   {photos}
-         </div>  
-      </div>
+         </div>
     );
   }
 }

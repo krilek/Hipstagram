@@ -36,7 +36,6 @@ class RegisterPage extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     const validation = this.formValidation()
-    console.log(validation)
     if (validation.correct) {
       this.setState({
         Login: '',

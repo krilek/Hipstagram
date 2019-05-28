@@ -1,50 +1,18 @@
 import React, { Component } from 'react';
 import { authHeader } from '../helpers/auth-header.js';
-import { SinglePhoto } from './SinglePhoto.js';
+import { SinglePhoto } from './SinglePhoto';
+import { ListOfPhotos } from './ListOfPhotos'
 const API = `/api/photos/`;
-export class populateGallery  extends Component {
-    state = {
-        photos: [],
-        selectedPhotos: [],
-        err: false ,
+export class populateGallery extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            selectedPhotos: [],
+            err: false,
+            galleryId: props.match.params.id
+        }
     }
-
-    update(){
-        fetch(API,
-                {
-                    method: 'GET',
-                    headers: {
-                        ...{
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        ...authHeader()
-                    }
-                })
-            .then(response => {
-                if (response.ok) {
-                    return response
-                } throw Error("Something went wrong.")
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                this.setState(
-                    {
-                        photos: data
-                    }
-                )
-            })
-            .catch(error => this.setState({
-                    err: true,
-                })
-            )
-    }
-
-    componentDidMount() {
-         this.update();
-
-    }
+    
     
     handleClick = (e) => {
         this.state.selectedPhotos.indexOf(e) === -1 ? this.state.selectedPhotos.push(e) : console.log("This item already exists");
@@ -52,45 +20,38 @@ export class populateGallery  extends Component {
     }
     
     handleSubmit = (e) => {
-        let photos = [];
-        for(let i=0; i<this.state.selectedPhotos.length; i++){
-            photos.push({Id: this.state.selectedPhotos[i] })
-        }
         e.preventDefault();
+        const data = this.prepareData();
         fetch("api/galleries/populate", {
-        method: 'PUT',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            Gallery: {Id:this.props.location.state},
-            Photos: photos
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
         })
-       
-    })
+        
     }
 
-
-
-  
-
-  render () {
-
-     const photos = this.state.photos.map(data => <SinglePhoto key={data.id} id={data.id} data={data.name} click={this.handleClick} /> )
-         
-     
-    return (
-      <div className="container">
-          
-          <form onSubmit={this.handleSubmit}>
-                <button type="submit" class="btn btn-primary">Add selected photos</button>
-        </form>
-         <div className="row"> 
-                  {photos}
-         </div>  
-      </div>
-    );
-  }
+    prepareData() {
+        let photos = [];
+        for (let i = 0; i < this.state.selectedPhotos.length; i++) {
+            photos.push({ Id: this.state.selectedPhotos[i] })
+        }
+        return {
+            Gallery: { Id: this.state.galleryId },
+            Photos: photos
+        }
+    }
+      render () {
+            return (
+              <div className="container">
+                <form onSubmit={this.handleSubmit}>
+                    <button type="submit" className="btn btn-primary">Add selected photos</button>
+                </form>
+                    <ListOfPhotos handlePhotoClick={this.handleClick}></ListOfPhotos>
+              </div>
+            );
+      }
 }
  

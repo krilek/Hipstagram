@@ -3,9 +3,7 @@ import { NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 export const SingleGallery = (props) => {
-    const {id} = props
-    
-     
+    const {id} = props.match.params;
     return (
         <div className="col-sm-6 col-md-4 py-5 " > 
             <div className="card" >
