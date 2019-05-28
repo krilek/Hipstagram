@@ -21,19 +21,13 @@ export class NavMenu extends Component {
           {
           to: "/",
               content: "Home",
-              private: false,
+              private: true,
                         hideWhenLogged: false
       },
           {
-              to: "/fetch-data",
-              content: "Fetch data",
-              private: false,
-              hideWhenLogged: false
-      },
-          {
             to: "/photoUpload",
-            content: "Add photo to acc",
-            private: false,
+            content: "New photo",
+            private: true,
             hideWhenLogged: false
       },
           {
@@ -66,6 +60,12 @@ export class NavMenu extends Component {
               private: false,
               hideWhenLogged: false
           },
+          {
+              to: "/users",
+              content: "Users",
+              private: false,
+              hideWhenLogged: false
+          },
       ]
   }
 
@@ -76,9 +76,9 @@ export class NavMenu extends Component {
   }
 
     render() {
-        const navigation = this.navItems.map(navItem => {
-            if (this.state.signedIn && navItem.private || this.state.signedIn && !navItem.hideWhenLogged) {
-                return ( < NavItem >  < NavLink
+        const navigation = this.navItems.map((navItem, i) => {
+            if (this.state.signedIn && navItem.private || this.state.signedIn && !navItem.hideWhenLogged || !this.state.signedIn && !navItem.private) {
+                return (< NavItem key= { i } >  < NavLink
                 tag = { Link }
                 className = "text-dark"
                 to = { navItem.to } > { navItem.content } </NavLink >  </NavItem > )

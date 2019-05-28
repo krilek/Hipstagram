@@ -1,5 +1,4 @@
 import { authHeader } from '../helpers/auth-header.js';
-import {BackEndConfig} from '../helpers/config.js';
 export const userService = {
     login,
     logout,
@@ -13,14 +12,14 @@ function login(Login, Password) {
         body: JSON.stringify({ Login, Password })
     };
     console.log(JSON.stringify({ Login, Password }))
-    console.log(`${BackEndConfig.apiUrl}api/users/authenticate`)
-    return fetch(`${BackEndConfig.apiUrl}api/users/authenticate`, requestOptions)
+    console.log(`/api/users/authenticate`)
+    return fetch(`/api/users/authenticate`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // Login successful if there's a user in the response
             if (user) {
                 console.log(user)
-                // store user details and basic auth credentials in local storage 
+                // store user details and basic auth credentials in local storage
                 // to keep user logged in between page refreshes
                 user.authdata = window.btoa(Login + ':' + Password);
                 localStorage.setItem('user', JSON.stringify(user));
@@ -41,7 +40,7 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(`${BackEndConfig.apiUrl}api/users`, requestOptions).then(handleResponse);
+    return fetch(`/api/users`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

@@ -13,6 +13,7 @@ import { Gallery } from './components/ListGallery';
 import { SingleGalleryViev } from './components/SingleGalleryViev';
 import {populateGallery} from './components/populateGallery';
 import {photoUpload} from "./components/PhotoUpload";
+import { Users } from "./components/Users";
 import { ListOfPhotos } from './components/ListOfPhotos';
 export default class App extends Component {
   static displayName = App.name;
@@ -30,6 +31,7 @@ export default class App extends Component {
         <Route path='/photoUpload' component={photoUpload } />
         <Route path='/list-of-photos' component={ListOfPhotos} />
         <Route path='/populateGallery/:id' component={populateGallery} />
+        <Route path='/users' component={Users} />
         <Route path='/logs' component={Logs} />
       </Layout>
     );

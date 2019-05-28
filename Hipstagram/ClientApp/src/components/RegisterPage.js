@@ -14,13 +14,12 @@ class RegisterPage extends Component {
     }
   }
   messages = {
-    username_incorrect: "Login should have 5 characters and should not contain spaces",
-    email_incorrect: "Email should have @",
-    password_incorrect: "Password should have 8 characters minimum"
+    username_incorrect: "Login should atleast have 3 characters",
+    email_incorrect: "Incorrect email",
+    password_incorrect: "Password should atleast have 4 characters"
   }
 
   handleChange = (e) => {
-
       const name = e.target.name;
       const type = e.target.type;
       if(type === "text" || type === "password" || type === "email") {
@@ -28,143 +27,145 @@ class RegisterPage extends Component {
         this.setState({
           [name]: value
         })
-      } 
+      }
     }
-
-
+    validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+    validateLogin(login) {
+        return /^[a-zA-Z0-9]{4,}$/.test(login);
+    }
 
   handleSubmit = (e) => {
     e.preventDefault()
     const validation = this.formValidation()
+    console.log("Validation", validation);
     if (validation.correct) {
+        const userData = {
+            Email: this.state.Email,
+            Login: this.state.Login,
+            Password: this.state.Password,
+        }
+        this.registerUser(userData).then(() => {
+            this.setState({
+                message: "Completed! Click to redirect to Login page."
+            })
+            setTimeout(() => this.setState({
+                message: ''
+            }), 10000)
+        },
+            error => {
+                this.setState({ message: "Something went wrong. Try again!" });
+                setTimeout(() => this.setState({
+                    message: ''
+                }), 10000)
+            }
+        );
       this.setState({
         Login: '',
         Email: '',
         Password: '',
-          message: "Complete",
+
           errors: {
             Login: false,
-            email: false,
+            Email: false,
             Password: false,
           }
       })
-   
-      
     } else {
-      this.setState({
+        this.setState({
         errors: {
-          Login: !validation.username,
-          Email: !validation.email,
-          Password: !validation.password,
+            Login: !validation.Login,
+            Email: !validation.Email,
+            Password: !validation.Password
         }
-      })
+        })
     }
-  
-    fetch('https://localhost:5001/api/users/register', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        Email: this.state.Email,
-        Login: this.state.Login,
-        Password: this.state.Password,
-      })
-    })
-  
+
   }
+
+    registerUser(data) {
+        return fetch('/api/users/register/',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+    }
   formValidation = () => {
-    let Login = false;
-    let Email = false;
-    let Password = false;
-    let correct = false;
-    if(this.state.Login.length > 5 && this.state.Login.indexOf(' ') === -1){
-      Login = true;
-    }
-    if(this.state.Email.indexOf('@') !== -1) {
-      Email = true;
-    }
-    if(this.state.Password.length > 8) {
-      Password = true;
-    }
-    if(Login && Email && Password  ) {
-      correct = true;
-    }
+      let Login = this.validateLogin(this.state.Login);
+      let Email = this.validateEmail(this.state.Email);
+      let Password = this.state.Password.length >= 4;
+      let correct = Login && Email && Password;
+
     return ({
       correct,
       Login,
       Email,
-      Password,
+      Password
     })
   }
 
-  componentDidUpdate() {
-      if(this.state.message !== '') {
-          setTimeout( ()=> this.setState({
-              message: ''
-          }),10000)
-      }
-  }
 
     render() {
     return (
-
- 
       <div className="col-md-6 col-md-offset-3">
-        <h2>Register</h2>
+
         <form onSubmit={this.handleSubmit} noValidate>
           <div className='form-group'>
-              <label htmlFor="user"> Login:
-                  <input type="text"
+              <label htmlFor="user"> Login:</label>
+              <input type="text"
                          id="user"
                          name="Login"
                          value={this.state.Login}
                          onChange={this.handleChange}
-                         className="form-control"  /> 
-                            {this.state.errors.Login &&
-                            <div className="help-block">{this.messages.username_incorrect}</div>
-                            }
-              </label>
+                         className="form-control"  />
+          {this.state.errors.Login &&
+              <small className="form-text text-muted">{this.messages.username_incorrect}</small>
+           }
           </div>
 
            <div className="form-group">
-              <label htmlFor="password"> Password:
+                    <label htmlFor="password"> Password:</label>
                 <input type="password"
                        id="password"
                       name="Password"
                       value={this.state.Password}
                       onChange={this.handleChange}
                       className="form-control" />
-                      
+
                       {this.state.errors.Password &&
-                      <div className="help-block">{this.messages.password_incorrect}</div>
-                      }    
-                  </label>        
+                    <small className="form-text text-muted">{this.messages.password_incorrect}</small>
+                      }
+
             </div>
-                <div className="form-group"> 
-                  <label htmlFor="email">Email:
+                <div className="form-group">
+
+                    <label htmlFor="email">Email:</label>
                       <input type="email"
                           id="email"
                           name="Email"
                           value={this.state.email}
                           onChange={this.handleChange}
                            className="form-control"/>
-            
+
                           {this.state.errors.Email &&
-                          <div className="help-block">{this.messages.email_incorrect}</div>
+    <small className="form-text text-muted">{this.messages.email_incorrect}</small>
                           }
-                    </label>
                 </div>
                 <div className="form-group">
-                      <button className="btn btn-primary register ">Register</button>
+                      <button className="btn btn-primary register">Register</button>
                 </div>
-                      {this.state.message && 
-                      <div className="form-row"> 
+                      {this.state.message &&
+                      <div className="form-row">
                         <div className="alert alert-success" role="alert">
-                        <p className="alert-heading text-center">{this.state.message}!</p>
+    <NavLink tag={Link} className="text-dark goToLogin" to="/login"><p className="alert-heading text-center">{this.state.message}</p></NavLink>
+
                         </div>
-                        <NavLink tag={Link} className="text-dark goToLogin" to="/login">Go To Login</NavLink>
                       </div>}
         </form>
        </div>

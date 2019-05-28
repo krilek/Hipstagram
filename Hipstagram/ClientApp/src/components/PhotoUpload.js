@@ -7,21 +7,24 @@ export class photoUpload extends Component {
         this.state = {
             File: null,
             Title: '',
-            Description: ''
+            Description: '',
+            Message: ''
         };
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
         this.photoUpload = this.photoUpload.bind(this);
     }
     handleChange = (e) => {
-        
         const { name, value } = e.target;
         this.setState({ [name]: value });
     }
     onFormSubmit(e) {
+                this.setState({Message: ""})
         e.preventDefault(); // Stop form submit
-        this.photoUpload(this.state).then((response) => {
-            //Response 200 good
+        this.photoUpload(Object.assign({}, this.state)).then((response) => {
+            if (response.ok) {
+                this.setState({Message: "Photo added."})
+            }
         });
     }
     onChange(e) {
@@ -30,37 +33,50 @@ export class photoUpload extends Component {
         });
     }
     photoUpload(data) {
-        const url = 'https://localhost:5001/api/photos';
+        const url = '/api/photos';
         const formData = this.getFormData(data);
-        
+
         const config = {
             method: 'POST',
             headers: authHeader(),
             body: formData
         };
-        
+
         return fetch(url, config);
     }
 
     getFormData(object) {
         const formData = new FormData();
         Object.keys(object).forEach(key => {
-            
+
             formData.append(key, object[key])
         });
         return formData;
     }
     render() {
         return (
-        <form onSubmit={this.onFormSubmit}>
-            <h1>File Upload</h1>
-                Title:
-            <input name="Title" value={this.state.Title} className="form-control" onChange={this.handleChange} />
-                Description:
-            <input name="Description" value={this.state.Description} className="form-control" onChange={this.handleChange} />
-            <input type="file" onChange={this.onChange} />
-            <button type="submit">Upload</button>
-        </form>
+            <div className="col-md-6 col-md-offset-3">
+                    <h2>Add photo</h2>
+                    <form onSubmit={this.onFormSubmit}>
+                        <div className="form-group">
+                                <label htmlFor="titleInput">Title:</label>
+                                <input name="Title" type="text" value={this.state.Title} onChange={this.handleChange} className="form-control" id="titleInput" aria-describedby="titleHelp" />
+                        </div>
+                        <div className="form-group">
+                        <label htmlFor="descriptionInput">Description:</label>
+                        <input name="Description" type="text" value={this.state.Description}  onChange={this.handleChange} className="form-control" id="descriptionInput" aria-describedby="titleHelp" />
+                        </div>
+                    <div className="form-group">
+                        <label htmlFor="exampleFormControlFile1">Example file input</label>
+                        <input type="file" onChange={this.onChange} className="form-control-file" />
+        {this.state.Message != '' &&
+            <small className="form-text text-muted">{this.state.Message}</small>
+    }
+                    </div>
+
+                    <button type="submit" className="btn btn-primary">Upload</button>
+                    </form>
+            </div>
     )
 }
 
