@@ -45,8 +45,8 @@ function getAll() {
 
 function handleResponse(response) {
     return response.text().then(text => {
-        console.log(text)
         const data = text && JSON.parse(text);
+        console.log(data)
         if (!response.ok) {
             if (response.status === 401) {
                 // auto logout if 401 response returned from api

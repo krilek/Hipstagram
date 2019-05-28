@@ -13,5 +13,7 @@
         IEnumerable<User> GetAll();
 
         User GetUser(int id);
+
+        void EditUser(User user, string password);
     }
 }
