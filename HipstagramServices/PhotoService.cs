@@ -48,11 +48,6 @@
             await this._context.SaveChangesAsync();
         }
 
-        public IEnumerable<Photo> GetUserPhotos(User user)
-        {
-            return this._context.Photos.Include(x => x.Authors).Where(x => x.Authors.Any(y => y.UserId == user.Id));
-        }
-
         public Photo Get(int id)
         {
             return this._context.Photos.Single(x => x.Id == id);
@@ -65,10 +60,15 @@
 
         public IEnumerable<Photo> GetFromGallery(Gallery gallery)
         {
-            var xd = this._context.Galleries.Where(x => x.Id == gallery.Id).ToList();
-            return this._context.Galleries.Where(x => x.Id == gallery.Id).Include(x => x.Photos).FirstOrDefault()
-                ?.Photos.Select(x => x.Photo);
+            return this._context.Galleries.Where(x => x.Id == gallery.Id).Include(x => x.Photos)
+                .ThenInclude(x => x.Photo).FirstOrDefault()?.Photos.Select(x => x.Photo);
         }
+
+        public IEnumerable<Photo> GetUserPhotos(User user)
+        {
+            return this._context.Photos.Include(x => x.Authors).Where(x => x.Authors.Any(y => y.UserId == user.Id));
+        }
+
         private string GeneratePhotoFileName(IFormFile file)
         {
             string extension = Path.GetExtension(file.FileName);

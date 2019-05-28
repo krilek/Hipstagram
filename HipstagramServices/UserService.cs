@@ -35,6 +35,9 @@
             if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
                 return null;
 
+            // Add info to log
+            this._context.Logs.Add(new Log { Activity = "Signed in.", Date = DateTime.Now, User = user });
+
             // authentication successful
             return user;
         }
@@ -55,6 +58,9 @@
             user.PasswordSalt = passwordSalt;
 
             this._context.Users.Add(user);
+
+            // Add info to log
+            this._context.Logs.Add(new Log { Activity = "Registered new user.", Date = DateTime.Now, User = user });
             this._context.SaveChanges();
 
             return user;

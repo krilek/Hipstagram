@@ -84,7 +84,7 @@ namespace Hipstagram
             services.AddScoped<IGalleryService, GalleryService>();
 
             // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "wwwroot"; });
         }
     }
 }

@@ -7,7 +7,7 @@
 
     public interface IGalleryService
     {
-        void AddGallery(Gallery gallery);
+        void AddGallery(User owner, Gallery gallery);
 
         void AddPhotos(GalleryDto gallery, params PhotoDto[] photos);
 

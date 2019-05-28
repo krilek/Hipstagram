@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HipstagramRepository.Migrations
 {
     [DbContext(typeof(HipstagramContext))]
-    [Migration("20190525095423_AddedUpdatedPhotos")]
-    partial class AddedUpdatedPhotos
+    [Migration("20190528020750_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

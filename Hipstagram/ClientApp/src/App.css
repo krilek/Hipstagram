@@ -12,9 +12,7 @@ input:focus{
 button.register{
     font-size: 20px;
     width: 200px;
-    border-radius: 20px !important; 
-
-    
+    border-radius: 20px !important;
 }
 button:hover{
     background-color: green !important;
@@ -27,13 +25,13 @@ button:hover{
 .goToLogin{
     color:green !important;
 }
-div.kafelek{
-    border:solid black;
-    height: 100px;
-    width: 100px;
-}
+
 .addNewGallery{
     border-radius: 15px;
+}
+.img-fluid{
+    max-width: 100%;
+    height: auto;
 }
 li{
     list-style-type: none;
