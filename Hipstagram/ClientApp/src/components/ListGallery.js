@@ -58,13 +58,13 @@ export class Gallery extends Component {
             [name]: value
           })
         } 
-      }
+    }
       
 
-      handleSubmit = (e) => {
+    handleSubmit = (e) => {
           e.preventDefault()
           this.addGallery(this.state.GalleryName)
-      }
+    }
       
     removeHandler = (id) => {
         this.deleteGallery(id)
@@ -144,4 +144,5 @@ export class Gallery extends Component {
       </div>
     );
   }
+  
 }

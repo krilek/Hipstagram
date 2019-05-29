@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
 
 export const SinglePhoto = (props) => {
-    const { key, photoData, clickEvent } = props;
+    const {  photoData, clickEvent } = props;
 
     return (
             <div className="col-sm-6 col-md-4 py-5 " >
