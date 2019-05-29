@@ -78,7 +78,8 @@ export class NavMenu extends Component {
     render() {
         const navigation = this.navItems.map((navItem, i) => {
             if (this.state.signedIn && navItem.private || this.state.signedIn && !navItem.hideWhenLogged || !this.state.signedIn && !navItem.private) {
-                return (< NavItem key= { i } >  < NavLink
+                return (< NavItem key= { i }  className="navItem">  < NavLink
+                class="nawLink"
                 tag = { Link }
                 className = "text-dark"
                 to = { navItem.to } > { navItem.content } </NavLink >  </NavItem > )
@@ -92,7 +93,7 @@ export class NavMenu extends Component {
 
     return (
       <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
+        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3 py-4" light>
           <Container>
             <NavbarBrand tag={Link} to="/">Hipstagram</NavbarBrand>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />

@@ -19,7 +19,7 @@ export class photoUpload extends Component {
         this.setState({ [name]: value });
     }
     onFormSubmit(e) {
-                this.setState({Message: ""})
+        this.setState({Message: ""})
         e.preventDefault(); // Stop form submit
         this.photoUpload(Object.assign({}, this.state)).then((response) => {
             if (response.ok) {
@@ -59,22 +59,22 @@ export class photoUpload extends Component {
                     <h2>Add photo</h2>
                     <form onSubmit={this.onFormSubmit}>
                         <div className="form-group">
-                                <label htmlFor="titleInput">Title:</label>
+                                <label htmlFor="titleInput"><i class="fas fa-heading"></i> Title:</label>
                                 <input name="Title" type="text" value={this.state.Title} onChange={this.handleChange} className="form-control" id="titleInput" aria-describedby="titleHelp" />
                         </div>
                         <div className="form-group">
-                        <label htmlFor="descriptionInput">Description:</label>
+                        <label htmlFor="descriptionInput"><i class="fas fa-align-left"></i> Description:</label>
                         <input name="Description" type="text" value={this.state.Description}  onChange={this.handleChange} className="form-control" id="descriptionInput" aria-describedby="titleHelp" />
                         </div>
                     <div className="form-group">
-                        <label htmlFor="exampleFormControlFile1">Example file input</label>
+                        <label htmlFor="exampleFormControlFile1"><i class="fas fa-file-alt"></i> Example file input</label>
                         <input type="file" onChange={this.onChange} className="form-control-file" />
-        {this.state.Message != '' &&
+        {this.state.Message !== '' &&
             <small className="form-text text-muted">{this.state.Message}</small>
     }
                     </div>
 
-                    <button type="submit" className="btn btn-primary">Upload</button>
+                    <button type="submit" className="btn btn-primary"><i class="fas fa-file-upload"></i> Upload</button>
                     </form>
             </div>
     )

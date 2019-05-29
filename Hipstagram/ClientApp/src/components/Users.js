@@ -36,11 +36,11 @@ class Users extends React.Component {
                         <table className="table table-bordered table-responsive-md table-striped text-center">
                             <thead>
                                 <tr>
-                                    <th className="text-center">Login</th> 
-                                <th className="text-center">Email</th>
-                                    <th className="text-center">Admin</th>
-                                    <th className="text-center">Edit</th>
-                                    <th className="text-center">Remove</th>
+                                    <th className="text-center"><i class="fas fa-user"></i> Login</th> 
+                                <th className="text-center"><i class="fas fa-at"></i> Email</th>
+                                    <th className="text-center"><i class="fas fa-user-shield"></i> Admin</th>
+                                    <th className="text-center"><i class="fas fa-user-edit"></i> Edit</th>
+                                    <th className="text-center"><i class="fas fa-user-slash"></i> Remove</th>
                                 </tr>
                             </thead>
                             <tbody>

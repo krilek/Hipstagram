@@ -25,6 +25,7 @@ export class Gallery extends Component {
                 })
             .then(response => {
                 if (response.ok) {
+                    console.log("ok")
                     return response
                 } throw Error("Something went wrong.")
             })
@@ -116,7 +117,7 @@ export class Gallery extends Component {
 
   render () {
 
-      const galleries = this.state.gallery.map(data => <SingleGallery key={data.id} id={data.id} data={data.name} removeHandler={this.removeHandler}/> )
+      const galleries = this.state.gallery.map(data => <SingleGallery key={data.id} id={data.id} data={data.name} removeHandler={this.removeHandler}/> );
          
      
     return (
@@ -132,11 +133,11 @@ export class Gallery extends Component {
                                         onChange={this.handleChange}
                                         className="form-control"  /> 
                             </label>
+                            <button className="btn btn-primary addNewGallery "> <i class="fas fa-plus"></i></button>
                         </div>
-                        <div className="form-group">
-                                <button className="btn btn-primary addNewGallery ">add</button>
-                        </div>
+                       
                     </form>
+                    
          </div>
          <div className="row"> 
                   {galleries}

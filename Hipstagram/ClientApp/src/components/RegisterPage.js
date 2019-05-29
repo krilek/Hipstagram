@@ -117,7 +117,7 @@ class RegisterPage extends Component {
 
         <form onSubmit={this.handleSubmit} noValidate>
           <div className='form-group'>
-              <label htmlFor="user"> Login:</label>
+              <label htmlFor="user"><i class="fas fa-user"></i> User:</label>
               <input type="text"
                          id="user"
                          name="Login"
@@ -130,7 +130,7 @@ class RegisterPage extends Component {
           </div>
 
            <div className="form-group">
-                    <label htmlFor="password"> Password:</label>
+                    <label htmlFor="password"><i class="fas fa-key"></i> Password:</label>
                 <input type="password"
                        id="password"
                       name="Password"
@@ -145,7 +145,7 @@ class RegisterPage extends Component {
             </div>
                 <div className="form-group">
 
-                    <label htmlFor="email">Email:</label>
+                    <label htmlFor="email"><i class="fas fa-at"></i> Email:</label>
                       <input type="email"
                           id="email"
                           name="Email"

@@ -53,14 +53,14 @@ class LoginPage extends React.Component {
                 <h2>Login</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className='form-group'>
-                        <label htmlFor="username">Username</label>
+                        <label htmlFor="username"><i class="fas fa-user"></i> Username</label>
                         <input type="text" className="form-control" name="username" value={username} onChange={this.handleChange} />
                         {submitted && !username &&
                             <small className="form-text text-muted">Username is required</small>
                         }
                     </div>
                     <div className='form-group'>
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password"><i class="fas fa-key"></i> Password</label>
                         <input type="password" className="form-control" name="password" value={password} onChange={this.handleChange} />
                         {submitted && !password &&
 
@@ -68,7 +68,7 @@ class LoginPage extends React.Component {
                         }
                     </div>
                     <div className="form-group">
-                        <button className="btn btn-primary register" disabled={loading}>Login</button>
+                        <button className="btn btn-primary register" disabled={loading}><i class="fas fa-sign-in-alt"></i> Login</button>
                     </div>
                     {error &&
                         <div className={'alert alert-danger'}>{error}</div>
