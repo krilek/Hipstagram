@@ -22,16 +22,18 @@ class Users extends React.Component {
         userService.getAll().then(users => this.setState({ users }));
     }
     removeHandler(id) {
-        userService.deleteUser(id).then(
-            () => {
-                if (localStorage.getItem('user') === null) {
-                    const { from } = this.props.location.state || { from: { pathname: "/" } };
-                    this.props.history.push(from);
-                    window.location.reload(true);
-                }
-            },
-            error => this.setState({ error, loading: false })
-        );
+        if (localStorage.getItem('user').id !== id) {
+            userService.deleteUser(id).then(
+                () => {
+                    //if (localStorage.getItem('user') === null) {
+                    //    const { from } = this.props.location.state || { from: { pathname: "/" } };
+                    //    this.props.history.push(from);
+                    //}
+                },
+                error => this.setState({ error, loading: false })
+            );
+        }
+        
     }
 
 
@@ -42,8 +44,12 @@ class Users extends React.Component {
                 <h3 className="card-header text-center font-weight-bold text-uppercase py-4">Users</h3>
                 <div className="card-body">
                     <div id="table" className="table-editable">
-                        <span className="table-add float-right mb-3 mr-2"><a href="#!" className="text-success"><i
-                            className="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
+                        <span className="table-add float-right mb-3 mr-2">
+                            
+                            <NavLink tag={Link} className="btn btn-primary btn-rounded btn-sm my-0" to={{ pathname: `/register` }} ><i className="fas fa-plus fa-2x" aria-hidden="true"></i></NavLink>
+    
+                            
+                        </span>
                         <table className="table table-bordered table-responsive-md table-striped text-center">
                             <thead>
                                 <tr>

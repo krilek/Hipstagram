@@ -67,7 +67,7 @@ export class photoUpload extends Component {
                         <input name="Description" type="text" value={this.state.Description}  onChange={this.handleChange} className="form-control" id="descriptionInput" aria-describedby="titleHelp" />
                         </div>
                     <div className="form-group">
-                        <label htmlFor="exampleFormControlFile1"><i class="fas fa-file-alt"></i> Example file input</label>
+                        <label htmlFor="exampleFormControlFile1"><i class="fas fa-file-alt"></i> Photo file:</label>
                         <input type="file" onChange={this.onChange} className="form-control-file" />
         {this.state.Message !== '' &&
             <small className="form-text text-muted">{this.state.Message}</small>

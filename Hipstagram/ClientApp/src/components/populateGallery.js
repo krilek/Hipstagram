@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { ListOfPhotos } from './ListOfPhotos'
+import { Redirect } from 'react-router-dom'
 export class populateGallery extends Component {
     constructor(props) {
         super(props)
         this.state = {
             selectedPhotos: [],
             err: false,
-            galleryId: props.match.params.id
+            galleryId: props.match.params.id,
+            reload: false
         }
     }
     
@@ -26,9 +28,12 @@ export class populateGallery extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data)
-        })
+        }).then(() => { this.setState({
+            reload: true
+        })})
         
     }
+
 
     prepareData() {
         let photos = [];
@@ -42,7 +47,9 @@ export class populateGallery extends Component {
     }
       render () {
             return (
-              <div className="container">
+                <div className="container">
+                    {this.state.reload && <Redirect to={{ pathname: `/singlegallery/${this.state.galleryId}`, state: this.props.location.state}} />
+            }
                 <form onSubmit={this.handleSubmit}>
                     <button type="submit" className="btn btn-primary">Add selected photos</button>
                 </form>

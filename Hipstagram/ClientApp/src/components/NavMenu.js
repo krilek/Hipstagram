@@ -44,7 +44,7 @@ export class NavMenu extends Component {
       },
           {
               to: "/gallery",
-              content: "Gallery",
+              content: "Galleries",
               private: true,
               hideWhenLogged: false
           },
@@ -63,7 +63,7 @@ export class NavMenu extends Component {
           {
               to: "/users",
               content: "Users",
-              private: false,
+              private: true,
               hideWhenLogged: false
           },
       ]
