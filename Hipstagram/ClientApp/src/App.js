@@ -31,7 +31,6 @@ export default class App extends Component {
       }
     }
   handleLogout() {
-      console.log("handle logout");
       localStorage.clear();
       this.setState({
           signedIn: false
