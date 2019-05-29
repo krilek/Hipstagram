@@ -69,13 +69,13 @@ class Users extends React.Component {
                                     </td>
                                     <td>
                                         <span className="table-remove">
-                                            {localStorage.getItem('user').id !== user.id && 
+                                            {JSON.parse(localStorage.user).id === user.id && 
                                             <NavLink tag={Link} className="btn btn-primary btn-rounded btn-sm my-0" to={{ pathname: `/editUser/${user.id}`, userDetails: user }} >Edit</NavLink>}
                                             </span>
                                     </td>
-                                <td>
-                                        <span className="table-remove">
-                                            <a className="btn btn-danger btn-rounded btn-sm my-0 nav-link" onClick={() => { this.removeHandler(user.id)}}>Remove</a></span>
+                                    <td>
+                                        <span className="table-remove">{JSON.parse(localStorage.user).id === user.id && <a className="btn btn-danger btn-rounded btn-sm my-0 nav-link" onClick={() => { this.removeHandler(user.id) }}>Remove</a>}
+                                            </span>
                                     </td>
                                     </tr>
                                     )}

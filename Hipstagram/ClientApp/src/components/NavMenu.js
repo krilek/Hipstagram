@@ -102,8 +102,9 @@ export class NavMenu extends Component {
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
                             {navigation}
-                            <NavItem className="navItem">  <NavLink class="nawLink" tag={Link} className="text-dark" to={"/login/"} onClick={() => { this.props.handleLogout()}} >Logout
-        </NavLink >  </NavItem >
+    {this.state.signedIn == true && <NavItem className="navItem">  <NavLink class="nawLink" tag={Link} className="text-dark" to={"/login/"} onClick={() => { this.props.handleLogout() }} >Logout
+        </NavLink >  </NavItem >}
+     
               </ul>
             </Collapse>
           </Container>
