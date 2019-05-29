@@ -33,6 +33,21 @@ button:hover{
     max-width: 100%;
     height: auto;
 }
+.close:hover{
+    background-color: white !important;
+    color: red;
+}
+.h3{
+    color:black;
+}
+.h3:hover{
+    color:green;
+}
+.card:hover{
+    border-color: green;
+
+}
+
 li{
     list-style-type: none;
 }

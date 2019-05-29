@@ -33,7 +33,7 @@ export default class App extends Component {
         <Route path='/list-of-photos' component={ListOfPhotos} />
         <Route path='/populateGallery/:id' component={populateGallery} />
         <Route path='/users' component={Users} />
-            <Route path='/editUser/:id' component={EditUser} />
+        <Route path='/editUser/:id' component={EditUser} />
         <Route path='/logs' component={Logs} />
       </Layout>
     );

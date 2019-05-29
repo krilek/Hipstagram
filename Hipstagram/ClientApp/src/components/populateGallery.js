@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { authHeader } from '../helpers/auth-header.js';
-import { SinglePhoto } from './SinglePhoto';
 import { ListOfPhotos } from './ListOfPhotos'
-const API = `/api/photos/`;
 export class populateGallery extends Component {
     constructor(props) {
         super(props)
