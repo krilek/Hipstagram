@@ -17,11 +17,29 @@ import { Users } from "./components/Users";
 import { ListOfPhotos } from './components/ListOfPhotos';
 import { EditUser } from './components/EditUser';
 export default class App extends Component {
-  static displayName = App.name;
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
 
+  static displayName = App.name;
+  componentWillMount() {
+      if (localStorage.getItem('user') !== null) {
+          this.setState({ signedIn: true })
+      } else {
+          this.setState({ signedIn: false })
+      }
+    }
+  handleLogout() {
+      console.log("handle logout");
+      localStorage.clear();
+      this.setState({
+          signedIn: false
+      })
+  }
   render () {
     return (
-      <Layout>
+        <Layout signedIn={this.state.signedIn} handleLogout={this.handleLogout}>
         <PrivateRoute exact path="/" component={HomePage} />
         <Route path="/login" component={LoginPage} />
         <Route path='/counter' component={Counter} />

@@ -68,9 +68,9 @@ class Users extends React.Component {
                                         <input className="form-check-input" type="checkbox" defaultChecked={user.isAdmin} disabled/>
                                     </td>
                                     <td>
-                                            <span className="table-remove">
-                                            <NavLink tag={Link} className="btn btn-primary btn-rounded btn-sm my-0" to={{ pathname: `/editUser/${user.id}`, userDetails: user }} >Edit
-                                </NavLink>
+                                        <span className="table-remove">
+                                            {localStorage.getItem('user').id !== user.id && 
+                                            <NavLink tag={Link} className="btn btn-primary btn-rounded btn-sm my-0" to={{ pathname: `/editUser/${user.id}`, userDetails: user }} >Edit</NavLink>}
                                             </span>
                                     </td>
                                 <td>

@@ -41,14 +41,13 @@ export class photoUpload extends Component {
             headers: authHeader(),
             body: formData
         };
-
         return fetch(url, config);
     }
 
     getFormData(object) {
         const formData = new FormData();
         Object.keys(object).forEach(key => {
-
+            console.log(key, object[key])
             formData.append(key, object[key])
         });
         return formData;

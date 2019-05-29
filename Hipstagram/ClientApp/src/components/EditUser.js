@@ -175,12 +175,12 @@ class EditUser extends Component {
                           }
                 </div>
                 <div className="form-group">
-                      <button className="btn btn-primary register">Register</button>
+                      <button className="btn btn-primary register">Update user</button>
                 </div>
                       {this.state.message &&
                       <div className="form-row">
                         <div className="alert alert-success" role="alert">
-    <NavLink tag={Link} className="text-dark goToLogin" to="/login"><p className="alert-heading text-center">{this.state.message}</p></NavLink>
+    <NavLink tag={Link} className="text-dark goToLogin" to="/users"><p className="alert-heading text-center">{this.state.message}</p></NavLink>
 
                         </div>
                       </div>}
