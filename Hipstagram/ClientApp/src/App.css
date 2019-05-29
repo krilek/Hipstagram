@@ -43,10 +43,15 @@ button:hover{
 .h3:hover{
     color:green;
 }
-.card:hover{
-    border-color: green;
-
+.card:hover {
+    border-color: #0062cc;
 }
+.selected {
+    border-color: green !important;
+    border-width: 4px;
+    transition: 0.05s;
+}
+
 
 li{
     list-style-type: none;

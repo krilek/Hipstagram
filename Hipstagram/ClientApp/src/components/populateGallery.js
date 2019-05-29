@@ -8,14 +8,26 @@ export class populateGallery extends Component {
             selectedPhotos: [],
             err: false,
             galleryId: props.match.params.id,
-            reload: false
+            reload: false,
+            active: false,
+
         }
     }
-    
+
+    toggleClass = () => {
+        const currentState = this.state.active;
+        this.setState({ active: !currentState });
+    };
     
     handleClick = (e) => {
-        this.state.selectedPhotos.indexOf(e) === -1 ? this.state.selectedPhotos.push(e) : console.log("This item already exists");
-        console.log(this.state.selectedPhotos)
+        console.log(e);
+        const index = this.state.selectedPhotos.indexOf(e);
+        if (index === -1) {
+            this.state.selectedPhotos.push(e);
+        } else {
+            this.state.selectedPhotos.splice(index, 1);
+        }
+        console.log(this.state.selectedPhotos);
     }
     
     handleSubmit = (e) => {
@@ -53,7 +65,7 @@ export class populateGallery extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <button type="submit" className="btn btn-primary">Add selected photos</button>
                 </form>
-                    <ListOfPhotos handlePhotoClick={this.handleClick}></ListOfPhotos>
+                    <ListOfPhotos selectable= { true } handlePhotoClick={this.handleClick}></ListOfPhotos>
               </div>
             );
       }

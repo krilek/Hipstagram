@@ -9,6 +9,7 @@ export class ListOfPhotos extends Component {
             API: this.props.api == null ? `/api/photos/` : this.props.api,
             photos: [],
             err: false,
+            selectable: this.props.selectable
         }
     }
     update() {
@@ -47,7 +48,7 @@ export class ListOfPhotos extends Component {
     }
     
   render () {
-      const photos = this.state.photos.map(data => <SinglePhoto key={data.id} photoData={data} clickEvent={this.props.handlePhotoClick == null ? () => { } : this.props.handlePhotoClick} /> )
+      const photos = this.state.photos.map(data => <SinglePhoto selectable={this.state.selectable} key={data.id} photoData={data} clickEvent={this.props.handlePhotoClick == null ? () => { } : this.props.handlePhotoClick} /> )
       return (
          <div className="row"> 
                   {photos}
