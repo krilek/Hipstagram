@@ -21,9 +21,20 @@ class Users extends React.Component {
         });
         userService.getAll().then(users => this.setState({ users }));
     }
-    removeHandler(id){
-        console.log(id);
+    removeHandler(id) {
+        userService.deleteUser(id).then(
+            () => {
+                if (localStorage.getItem('user') === null) {
+                    const { from } = this.props.location.state || { from: { pathname: "/" } };
+                    this.props.history.push(from);
+                    window.location.reload(true);
+                }
+            },
+            error => this.setState({ error, loading: false })
+        );
     }
+
+
     render() {
         const { user, users } = this.state;
         return (

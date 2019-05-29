@@ -2,7 +2,8 @@ import { authHeader } from '../helpers/auth-header.js';
 export const userService = {
     login,
     logout,
-    getAll
+    getAll,
+    deleteUser
 };
 
 function login(Login, Password) {
@@ -29,6 +30,26 @@ function login(Login, Password) {
         });
 }
 
+function deleteUser(id){
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {
+            ...{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            ...authHeader()
+        }
+    };
+    return fetch(`/api/users/${id}`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            if (user.id == localStorage.user.id) {
+                logout();
+            }
+            return user;
+        });
+}
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('user');
@@ -45,6 +66,7 @@ function getAll() {
 
 function handleResponse(response) {
     return response.text().then(text => {
+        console.log(text)
         const data = text && JSON.parse(text);
         console.log(data)
         if (!response.ok) {
