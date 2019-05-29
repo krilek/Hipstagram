@@ -3,6 +3,15 @@
   text-align: center;
   word-break: break-all;
 }
+.navItem{
+  font-size: 20px;
+  transition: 0.3s;
+}
+.navItem:hover{
+  font-size: 30px;
+  color:gold !important;
+  
+}
 
 html {
   font-size: 14px;
@@ -16,3 +25,4 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+

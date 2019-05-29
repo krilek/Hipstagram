@@ -11,6 +11,8 @@
 
     using HipstagramServices.Interfaces;
 
+    using Microsoft.EntityFrameworkCore;
+
     public class UserService : IUserService
     {
         private readonly HipstagramContext _context;
@@ -35,6 +37,9 @@
             if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
                 return null;
 
+            // Add info to log
+            this._context.Logs.Add(new Log { Activity = "Signed in.", Date = DateTime.Now, User = user });
+
             // authentication successful
             return user;
         }
@@ -55,9 +60,32 @@
             user.PasswordSalt = passwordSalt;
 
             this._context.Users.Add(user);
+
+            // Add info to log
+            this._context.Logs.Add(new Log { Activity = "Registered new user.", Date = DateTime.Now, User = user });
             this._context.SaveChanges();
 
             return user;
+        }
+
+        public void EditUser(User user, string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+                throw new Exception("Password is required");
+            User userToEdit = this._context.Users.Find(user.Id);
+            if (userToEdit == null)
+                throw new Exception("Specified user to edit doesn't exist");
+            byte[] passwordHash, passwordSalt;
+            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            userToEdit.Email = user.Email;
+            userToEdit.Login = user.Login;
+            userToEdit.isAdmin = user.isAdmin;
+            userToEdit.PasswordHash = passwordHash;
+            userToEdit.PasswordSalt = passwordSalt;
+            this._context.Entry(userToEdit).State = EntityState.Modified;
+            this._context.Logs.Add(
+                new Log { Activity = $"Edited user {userToEdit.Login}.", Date = DateTime.Now, User = user });
+            this._context.SaveChanges();
         }
 
         public IEnumerable<User> GetAll()

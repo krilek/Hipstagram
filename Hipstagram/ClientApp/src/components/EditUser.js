@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
 import { NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
-class RegisterPage extends Component {
-
-  state = {
-    Login: '',
-    Email: '',
-    Password: '',
-    errors: {
-      Login: false,
-      Email: false,
-      Password: false,
+class EditUser extends Component {
+    constructor(props) {
+        super(props);
+        const emptyRequest = props.location.userDetails == null;
+        this.state = {
+            editedUser: props.match.params.id,
+            Login: emptyRequest ? '' : props.location.userDetails.login,
+            Email: emptyRequest ? '' : props.location.userDetails.email,
+            Password: '',
+            errors: {
+                Login: false,
+                Email: false,
+                Password: false,
+            },
+            
+        }
     }
-  }
   messages = {
-    username_incorrect: "Login should atleast have 3 characters",
+    username_incorrect: "Login should at least have 3 characters",
     email_incorrect: "Incorrect email",
-    password_incorrect: "Password should atleast have 4 characters"
+    password_incorrect: "Password should at least have 4 characters"
   }
 
   handleChange = (e) => {
@@ -46,14 +51,26 @@ class RegisterPage extends Component {
             Email: this.state.Email,
             Login: this.state.Login,
             Password: this.state.Password,
+            Id: this.state.editedUser
         }
-        this.registerUser(userData).then(() => {
-            this.setState({
-                message: "Completed! Click to redirect to Login page."
-            })
-            setTimeout(() => this.setState({
-                message: ''
-            }), 10000)
+        this.updateUser(userData).then((response) => {
+            if (response.ok) {
+                this.setState({
+                    message: "Updated"
+                })
+                setTimeout(() => this.setState({
+                        message: ''
+                    }),
+                    10000)
+            } else {
+                this.setState({
+                    message: "Something went wrong. Try again!"
+                })
+                setTimeout(() => this.setState({
+                        message: ''
+                    }),
+                    10000)
+            }
         },
             error => {
                 this.setState({ message: "Something went wrong. Try again!" });
@@ -85,10 +102,10 @@ class RegisterPage extends Component {
 
   }
 
-    registerUser(data) {
-        return fetch('/api/users/register/',
+    updateUser(data) {
+        return fetch(`/api/users/${this.state.editedUser}/`,
             {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -117,7 +134,7 @@ class RegisterPage extends Component {
 
         <form onSubmit={this.handleSubmit} noValidate>
           <div className='form-group'>
-              <label htmlFor="user"><i class="fas fa-user"></i> User:</label>
+              <label htmlFor="user"><i class="fas fa-user"></i> Login:</label>
               <input type="text"
                          id="user"
                          name="Login"
@@ -149,7 +166,7 @@ class RegisterPage extends Component {
                       <input type="email"
                           id="email"
                           name="Email"
-                          value={this.state.email}
+                          value={this.state.Email}
                           onChange={this.handleChange}
                            className="form-control"/>
 
@@ -173,4 +190,4 @@ class RegisterPage extends Component {
   }
 }
 
-export { RegisterPage } ;
+export { EditUser } ;

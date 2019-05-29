@@ -84,32 +84,25 @@ namespace Hipstagram.Controllers
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(int id, UserDto user)
         {
             if (id != user.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                this._userService.EditUser(this._mapper.Map<User>(user), user.Password);
+
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/Users

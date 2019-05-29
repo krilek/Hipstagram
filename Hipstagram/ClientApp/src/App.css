@@ -12,9 +12,7 @@ input:focus{
 button.register{
     font-size: 20px;
     width: 200px;
-    border-radius: 20px !important; 
-
-    
+    border-radius: 20px !important;
 }
 button:hover{
     background-color: green !important;
@@ -27,14 +25,34 @@ button:hover{
 .goToLogin{
     color:green !important;
 }
-div.kafelek{
-    border:solid black;
-    height: 100px;
-    width: 100px;
-}
+
 .addNewGallery{
     border-radius: 15px;
 }
+.img-fluid{
+    max-width: 100%;
+    height: auto;
+}
+.close:hover{
+    background-color: white !important;
+    color: red;
+}
+.h3{
+    color:black;
+}
+.h3:hover{
+    color:green;
+}
+.card:hover {
+    border-color: #0062cc;
+}
+.selected {
+    border-color: green !important;
+    border-width: 4px;
+    transition: 0.05s;
+}
+
+
 li{
     list-style-type: none;
 }

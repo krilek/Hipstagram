@@ -24,8 +24,8 @@
         [HttpGet]
         public ActionResult<IEnumerable<LogDto>> GetLogs()
         {
-            return this._context.Logs.Include(l => l.User).ToList().Select(
-                x => new LogDto { Activity = x.Activity, User = x.User.Login, Date = x.Date }).ToList();
+            return this._context.Logs.Include(l => l.User).OrderByDescending(x => x.Date).ToList().Select(
+                x => new LogDto { Id = x.Id, Activity = x.Activity, User = x.User.Login, Date = x.Date }).ToList();
         }
     }
 }
