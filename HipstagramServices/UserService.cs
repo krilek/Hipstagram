@@ -1,5 +1,7 @@
 ﻿namespace HipstagramServices
 {
+    #region Usings
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,6 +14,8 @@
     using HipstagramServices.Interfaces;
 
     using Microsoft.EntityFrameworkCore;
+
+    #endregion
 
     public class UserService : IUserService
     {
@@ -38,7 +42,8 @@
                 return null;
 
             // Add info to log
-            this._context.Logs.Add(new Log { Activity = "Signed in.", Date = DateTime.Now, User = user });
+            // Will be fixed in a future
+            // this._context.Logs.Add(new Log { Activity = "Signed in.", Date = DateTime.Now, User = user });
 
             // authentication successful
             return user;
@@ -51,10 +56,9 @@
                 throw new Exception("Password is required");
 
             if (this._context.Users.Any(x => x.Login == user.Login))
-                throw new Exception("Login \"" + user.Login + "\" is already taken");
+                throw new Exception($"Login \"{user.Login}\" is already taken");
 
-            byte[] passwordHash, passwordSalt;
-            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
@@ -75,8 +79,7 @@
             User userToEdit = this._context.Users.Find(user.Id);
             if (userToEdit == null)
                 throw new Exception("Specified user to edit doesn't exist");
-            byte[] passwordHash, passwordSalt;
-            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
             userToEdit.Email = user.Email;
             userToEdit.Login = user.Login;
             userToEdit.isAdmin = user.isAdmin;
@@ -100,9 +103,10 @@
 
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            if (password == null) throw new ArgumentNullException("password");
+            if (password == null) throw new ArgumentNullException(nameof(password));
+
             if (string.IsNullOrWhiteSpace(password))
-                throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+                throw new ArgumentException("Value cannot be empty or whitespace only string.", nameof(password));
 
             using (var hmac = new HMACSHA512())
             {
@@ -113,13 +117,15 @@
 
         private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
-            if (password == null) throw new ArgumentNullException("password");
+            if (password == null) throw new ArgumentNullException(nameof(password));
             if (string.IsNullOrWhiteSpace(password))
-                throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+                throw new ArgumentException("Value cannot be empty or whitespace only string.", nameof(password));
             if (storedHash.Length != 64)
-                throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
+                throw new ArgumentException("Invalid length of password hash (64 bytes expected).", nameof(storedHash));
             if (storedSalt.Length != 128)
-                throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
+                throw new ArgumentException(
+                    "Invalid length of password salt (128 bytes expected).",
+                    nameof(storedSalt));
 
             using (var hmac = new HMACSHA512(storedSalt))
             {
