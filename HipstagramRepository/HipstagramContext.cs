@@ -11,13 +11,13 @@
 
     public class HipstagramContext : DbContext
     {
-        public static readonly Microsoft.Extensions.Logging.LoggerFactory _myLoggerFactory =
-            new Microsoft.Extensions.Logging.LoggerFactory(new[] {new ConsoleLoggerProvider((_, __) => true, true)});
+        //public static readonly Microsoft.Extensions.Logging.LoggerFactory _myLoggerFactory =
+        //    new Microsoft.Extensions.Logging.LoggerFactory(new[] {new ConsoleLoggerProvider((_, __) => true, true)});
         private const string DatabaseName = "hipstagram.db";
 
         public DbSet<Gallery> Galleries { get; set; }
 
-        public DbSet<Log> Logs { get; set; }
+        public DbSet<EventLog> Logs { get; set; }
 
         public DbSet<Photo> Photos { get; set; }
 
@@ -25,8 +25,8 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseLoggerFactory(_myLoggerFactory);
-            optionsBuilder.EnableSensitiveDataLogging();
+            //optionsBuilder.UseLoggerFactory(_myLoggerFactory);
+            //optionsBuilder.EnableSensitiveDataLogging();
             if (File.Exists($"../{DatabaseName}"))
             {
                 optionsBuilder.UseSqlite($"Data Source=../{DatabaseName}");

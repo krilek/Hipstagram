@@ -1,16 +1,42 @@
 namespace Hipstagram
 {
+    using System.IO;
+
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Logging;
+
+    using Serilog;
 
     public class Program
     {
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
+        private static string _environmentName;
+
+        public static IWebHostBuilder BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args).ConfigureLogging(
+                (hostingContext, config) =>
+                    {
+                        config.ClearProviders();
+                        _environmentName = hostingContext.HostingEnvironment.EnvironmentName;
+                    }).UseStartup<Startup>().UseSerilog(
+                (hostingContext, loggerConfiguration) =>
+                    loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration));
 
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            BuildWebHost(args).Build();
+
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{_environmentName}.json", optional: true, reloadOnChange: true)
+                .Build();
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
+
+            webHost.Run();
         }
     }
 }
